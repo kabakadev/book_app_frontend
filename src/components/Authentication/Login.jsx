@@ -1,6 +1,8 @@
-import {Formik,Form,Field} from 'formik';
+import {Formik,Form,Field,ErrorMessage} from 'formik';
+import { useState } from 'react';
 import * as Yup from 'yup';
 function Login(){
+    const [loginError, setLoginError] = useState('');
     return (
     <Formik 
     initialValues={{username:'',password:''}}
@@ -13,7 +15,7 @@ function Login(){
             .required('Password is required'),
     })}
     onSubmit={(values, {setSubmitting}) => {
-        console.log('Form submitted with:', values);
+        setLoginError('');
 
         fetch('http://127.0.0.1:5000/login', {
             method: 'POST',
@@ -22,22 +24,33 @@ function Login(){
         })
         .then(response => response.json())
         .then(data => {
-            console.log('backend server: ',data )
+            if (data.error){
+                setLoginError(data.error)
+            } else {
+                console.log('Login successful:', data )
+            }
         })
-        .catch(error => console.log('Error:', error))
+        .catch(error => {
+            setLoginError("Something went wrong, please try again")
+            console.log("Error:", error)
+        })
         .finally(()=> setSubmitting(false))
     }}
     
     >
-        {({ handleSubmit }) => (
-        <Form onSubmit={handleSubmit}>
+        {({ isSubmitting }) => (
+        <Form>
             <label>Username:</label>
             <Field type="text" name="username"/>
+            <ErrorMessage name="username" component="div" style={{ color: 'red' }} />
 
             <label>Password:</label>
             <Field type="password" name="password" />
+            <ErrorMessage name="password" component="div" style={{ color: 'red' }} />
+            {loginError && <div style={{ color: 'red', marginTop: '10px' }}>{loginError}</div>}
 
-            <button type="submit">Login</button>
+
+            <button type="submit" disabled={isSubmitting}>Login</button>
         </Form>
         )}
     </Formik>
