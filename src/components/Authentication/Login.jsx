@@ -68,6 +68,12 @@ function Login(){
             <button type="submit" disabled={isSubmitting} className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
             {isSubmitting ? 'Logging in...' : 'Login'}
             </button>
+            <div className="text-center mt-4">
+                            <span className="text-gray-600">Don't have an account? </span>
+                            <button type="button" className="text-blue-500 hover:underline">
+                                Signup
+                            </button>
+            </div>
         </Form>
         )}
     </Formik>
