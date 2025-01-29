@@ -2,7 +2,9 @@ import {Formik,Form,Field,ErrorMessage} from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
 function Login(){
+    const navigate = useNavigate(); 
     const [loginError, setLoginError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     return (
@@ -34,7 +36,8 @@ function Login(){
         .then(response => response.json())
         .then(data => {
             if (data.message){
-                setLoginError(data.message)
+                setLoginError(data.message);
+                navigate('/dashboard');
             } else if (data.error){
                 setLoginError(data.error)
             }

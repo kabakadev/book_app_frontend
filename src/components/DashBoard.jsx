@@ -5,3 +5,4 @@ function DashBoard(){
         </div>
     )
 }
+export default DashBoard
