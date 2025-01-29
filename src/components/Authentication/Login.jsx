@@ -1,8 +1,10 @@
 import {Formik,Form,Field,ErrorMessage} from 'formik';
 import { useState } from 'react';
 import * as Yup from 'yup';
+import { Eye, EyeOff } from "lucide-react";
 function Login(){
     const [loginError, setLoginError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     return (
         <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
@@ -52,7 +54,15 @@ function Login(){
             <ErrorMessage name="username" component="div"  className="text-red-500 text-sm" />
 
             <label className="block text-sm font-medium">Password:</label>
-            <Field type="password" name="password" className="w-full p-2 border rounded" />
+            <div className="relative">
+            <Field type={showPassword ? "text" : "password"} name="password" className="w-full p-2 border rounded pr-10" />
+            <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute inset-y-0 right-2 flex items-center text-gray-500"
+              > {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+              </div>
             <ErrorMessage name="password" component="div" className="text-red-500 text-sm" />
            
             <button type="submit" disabled={isSubmitting} className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
