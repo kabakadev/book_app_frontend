@@ -8,5 +8,25 @@ const Dashboard = () => {
     const navigate = useNavigate()
     const [userData, setUserData] = useState(null)
     const [isFetching, setIsFetching] = useState(true)
+
+    useEffect(() => {
+        if (!loading && !isAuthenticated) {
+          navigate("/login")
+        } else if (user && user.id) {
+          fetch(`http://127.0.0.1:5000/users/${user.id}`, {
+            credentials: "include",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              setUserData(data)
+              setIsFetching(false)
+            })
+            .catch((error) => {
+              console.error("Error fetching user data:", error)
+              setIsFetching(false)
+            })
+        }
+      }, [isAuthenticated, loading, navigate, user])
+    
   
 }
