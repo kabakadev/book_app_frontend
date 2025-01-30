@@ -24,6 +24,18 @@ const ReadingList = () => {
     const fetchReadingLists = () => {
         fetch("http://127.0.0.1:5000/reading-lists", {
             credentials: "include",
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            setReadingLists(data);
+            console.log("Reading lists fetched:", data);
+            setIsFetching(false);
+        })
+        .catch((error) => {
+            console.error("Error fetching reading lists:", error);
+            setIsFetching(false);
+        }); 
+    };
 
 
 }
