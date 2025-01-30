@@ -80,6 +80,18 @@ const ReadingList = () => {
             console.error("Error updating reading list:", error);
         });
     };
+    const handleDeleteList = (id) => {
+        fetch(`http://127.0.0.1:5000/reading-lists/${id}`, {
+            method: "DELETE",
+            credentials: "include", 
+        })
+        .then(() => {
+            //remove the deleted list from the readingLists state
+            setReadingLists(readingList.filter((list) => list.id !== id));  
+    }).catch((error) => {
+        console.error("Error deleting reading list:", error);
+    });
+}
 
 
 }
