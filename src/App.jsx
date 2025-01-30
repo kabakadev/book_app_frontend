@@ -4,6 +4,7 @@ import { BrowserRouter as Router,Routes,Route, Navigate } from 'react-router-dom
 import { useUser } from './context/UserContext.js'
 import Home from './components/Home'
 import DashBoard from './components/DashBoard'
+import SignUp from './components/Authentication/SignUp.jsx'
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated, loading } = useUser();
 

@@ -34,15 +34,15 @@ export const UserProvider = ({ children }) => {
 
         checkAuth();
     }, []);
-    
+
     // Signup function
-    const signup = async (username, email, password) => {
+    const signup = async (username, password) => {
         try {
             const response = await fetch("http://127.0.0.1:5000/signup", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, email, password }),
-                credentials: "include", // Ensure session cookie is stored
+                body: JSON.stringify({ username, password }),
+                credentials: "include", 
             });
 
             const data = await response.json();
