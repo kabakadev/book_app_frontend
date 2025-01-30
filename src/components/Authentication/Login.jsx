@@ -3,7 +3,9 @@ import { useState } from 'react';
 import * as Yup from 'yup';
 import { Eye, EyeOff } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../../context/UserContext.js';
 function Login(){
+    const { login } = useUser();
     const navigate = useNavigate(); 
     const [loginError, setLoginError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -25,29 +27,20 @@ function Login(){
             .min(6, 'Password must be at least 6 characters')
             .required('Password is required'),
     })}
-    onSubmit={(values, {setSubmitting}) => {
+    onSubmit={async (values, {setSubmitting}) => {
         setLoginError('');
-
-        fetch('http://127.0.0.1:5000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message){
-                setLoginError(data.message);
-                navigate('/dashboard');
-            } else if (data.error){
-                setLoginError(data.error)
-            }
-        })
-        .catch( ()=> {
-            setLoginError("Something went wrong, please try again")
-            
-        })
-        .finally(()=> setSubmitting(false))
+        try {
+            await login(values.username, values.password); // Use the login function from UserContext
+            setLoginError('Login successful');
+            navigate('/dashboard');
+        } catch (error) {
+            setLoginError(error.message || 'Login failed');
+        } finally {
+            setSubmitting(false);
+        }
     }}
+
+       
     
     >
         {({ isSubmitting }) => (

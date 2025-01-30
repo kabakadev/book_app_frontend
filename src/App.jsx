@@ -1,6 +1,6 @@
 import './App.css'
 import Login from './components/Authentication/Login'
-import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
+import { BrowserRouter as Router,Routes,Route, Navigate } from 'react-router-dom'
 import { useUser } from './context/UserContext.js'
 import Home from './components/Home'
 import DashBoard from './components/DashBoard'
@@ -8,7 +8,11 @@ const ProtectedRoute = ({ element }) => {
   const { isAuthenticated, loading } = useUser();
 
   if (loading) return <p>Loading...</p>;
-  return isAuthenticated ? element : <Navigate to="/login" />;
+  if (!isAuthenticated) {
+      console.log("User not authenticated, redirecting to login...");  // Debugging
+      return <Navigate to="/login" />;
+  }
+  return element;
 };
 
 function App() {
