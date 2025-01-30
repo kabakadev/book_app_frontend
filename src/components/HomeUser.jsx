@@ -24,6 +24,13 @@ const HomeUser = () => {
             .catch((error) => {
                 console.error("Error fetching books:", error);
                 setIsFetching(false);
-            })
+            });
+        }
+    }, [isAuthenticated, loading, navigate]);
+    if (loading || isFetching) {
+        return <p>Loading...</p>
+    }
+    if (!isAuthenticated) return null;
+    
 
 }
