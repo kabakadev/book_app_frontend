@@ -96,6 +96,28 @@ const Dashboard = () => {
             ))}
           </div>
         </section>
+        <section>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+            <BookOpen className="mr-2 text-green-500" />
+            Recommendations
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Example recommendation */}
+            <div className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">You Don't Know JS Yet</h3>
+                <div className="flex items-center">
+                  <span className="text-yellow-500 flex">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-current" />
+                    ))}
+                  </span>
+                  <span className="ml-2 text-sm text-gray-500">5/5</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
         </div>
         
       )
