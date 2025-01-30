@@ -34,6 +34,31 @@ export const UserProvider = ({ children }) => {
 
         checkAuth();
     }, []);
+    
+    // Signup function
+    const signup = async (username, email, password) => {
+        try {
+            const response = await fetch("http://127.0.0.1:5000/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password }),
+                credentials: "include", // Ensure session cookie is stored
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setUser(data.user);
+                setIsAuthenticated(true);
+            } else {
+                throw new Error(data.error || "Signup failed");
+            }
+        } catch (error) {
+            console.error("Signup error:", error);
+            throw error;
+        }
+    };
+
 
     // Login function
     const login = async (username, password) => {
@@ -75,7 +100,7 @@ export const UserProvider = ({ children }) => {
     };
 
     return (
-        <UserContext.Provider value={{ user, isAuthenticated, login, logout, loading }}>
+        <UserContext.Provider value={{ user, isAuthenticated,signup, login, logout, loading }}>
             {children}
         </UserContext.Provider>
     );
