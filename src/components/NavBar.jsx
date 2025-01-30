@@ -18,6 +18,7 @@ const NavBar = () => {
                   isActive ? "text-blue-600" : "text-gray-600"
                 } hover:text-blue-600`}>Home</NavLink>
                 <NavLink to="/reading-list" className={({isActive}) =>  `text-lg font-medium ${isActive ? "text-blue-600" : "text-gray-600"} hover:text-blue-600`}>Reading List</NavLink>
+                <NavLink to="/dashboard" className={({isActive}) =>  `text-lg font-medium ${isActive ? "text-blue-600" : "text-gray-600"} hover:text-blue-600`}>Dashboard</NavLink>
                 </div>
                 <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded ">Logout</button>
             </div>

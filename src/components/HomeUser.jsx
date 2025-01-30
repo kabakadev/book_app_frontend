@@ -2,12 +2,13 @@ import { useUser } from "../context/UserContext.js";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {Card, CardContent, CardMedia, Typography, Button,Grid} from '@mui/material'
-
+import NavBar from './NavBar.jsx'
 const HomeUser = () => {
     const { user, isAuthenticated, loading } = useUser();
     const navigate = useNavigate();
     const [books,setBooks] = useState([]);
     const [isFetching, setIsFetching] = useState(true); 
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         if (!loading && !isAuthenticated) {
@@ -18,7 +19,8 @@ const HomeUser = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                setBooks(data.books);
+                setBooks(data);
+                console.log("Books fetched:", data);
                 setIsFetching(false);
             })
             .catch((error) => {
@@ -31,15 +33,21 @@ const HomeUser = () => {
         return <p>Loading...</p>
     }
     if (!isAuthenticated) return null;
+
+    const filteredBooks = books.filter((book) => 
+    
+        book.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
+            <NavBar />
             <h1 className="text-3xl font-bold mb-6">Home</h1>
 
             <div className="mb-8">
-                <input type="text" placeholder="Search..." className="w-full p-2 border rounded" />
+                <input type="text" placeholder="Search..." className="w-full p-2 border rounded" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
             </div>
             <Grid container spacing={4}>
-                {books.map((book) => (
+                {filteredBooks.map((book) => (
                     <Grid item key={book.id} xs={12} sm={6} md={4} lg={3}>
                         <Card className="h-full flex flex-col">
                             <CardMedia
