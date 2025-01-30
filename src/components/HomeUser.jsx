@@ -55,11 +55,33 @@ const HomeUser = () => {
                                 <Typography variant="body2" color="text.secondary">
                                     {book.author} ({book.publication_year})
                                 </Typography>
-                        
-                        </Card>    
-                }
+                                <Typography variant="body2" color="text.secondary">
+                                    {book.genre}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {book.pages_count} pages 
+                                </Typography>
+                                </CardContent>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => navigate(`/books/${book.id}`)}
+                                    >
+                                    View Details
+                                </Button>
+                        </Card>
+                        </Grid>
+                ))}
+            </Grid>    
+                <div className="mt-8 text-center">
+                    <Button variant="outlined" color="primary">
+                        Load More
+                    </Button>
+
+                </div>
         </div>
     )
 
 
 }
+export default HomeUser
