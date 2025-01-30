@@ -8,5 +8,22 @@ const HomeUser = () => {
     const navigate = useNavigate();
     const [books,setBooks] = useState([]);
     const [isFetching, setIsFetching] = useState(true); 
-    
+
+    useEffect(() => {
+        if (!loading && !isAuthenticated) {
+            navigate("/login");
+        } else {
+            fetch("http:///127.0.0.1:5000/books",{
+                credentials: "include",
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                setBooks(data.books);
+                setIsFetching(false);
+            })
+            .catch((error) => {
+                console.error("Error fetching books:", error);
+                setIsFetching(false);
+            })
+
 }
