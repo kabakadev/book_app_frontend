@@ -41,6 +41,25 @@ const ReadingList = () => {
             setIsFetching(false);
         }); 
     };
+    const handleCreateList = () => {
+        fetch(`http://127.0.0.1:5000/reading-lists?user_id=${user.id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ name: newListName }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            setReadingLists([...readingList, data]);
+            setIsCreateDialogOpen(false);
+            setNewListName("");
+        })
+        .catch((error) => {
+            console.error("Error creating reading list:", error);
+        });
+    }
 
 
 }
