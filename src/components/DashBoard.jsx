@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { BookOpen, List, Star } from "lucide-react"
 
 const Dashboard = () => {
-    const { user, isAuthenticated, loading } = useUser()
+    const { user, isAuthenticated, loading,logout } = useUser()
     const navigate = useNavigate()
     const [userData, setUserData] = useState(null)
     const [isFetching, setIsFetching] = useState(true)
@@ -36,11 +36,19 @@ const Dashboard = () => {
       }
     
       if (!isAuthenticated) return null
+      const handleLogout = async () => {
+        await logout();
+        navigate("/login"); // Redirect to login after logout
+      };
+
       
       return(
         <div className="bg-gray-100 min-h-screen">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-8">Welcome, {user.username}!</h1>
+              <button  onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Logout
+                
+              </button>
             
         <section className="mb-12">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
