@@ -31,6 +31,35 @@ const HomeUser = () => {
         return <p>Loading...</p>
     }
     if (!isAuthenticated) return null;
-    
+    return (
+        <div className="p-6 bg-gray-100 min-h-screen">
+            <h1 className="text-3xl font-bold mb-6">Home</h1>
+
+            <div className="mb-8">
+                <input type="text" placeholder="Search..." className="w-full p-2 border rounded" />
+            </div>
+            <Grid container spacing={4}>
+                {books.map((book) => (
+                    <Grid item key={book.id} xs={12} sm={6} md={4} lg={3}>
+                        <Card className="h-full flex flex-col">
+                            <CardMedia
+                                component="img"
+                                height="200"
+                                image={book.image_url}
+                                alt={book.title}
+                                />
+                            <CardContent className="flex-grow">
+                                <Typography gutterBottom variant="h5" component="div">
+                                    {book.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                    {book.author} ({book.publication_year})
+                                </Typography>
+                        
+                        </Card>    
+                }
+        </div>
+    )
+
 
 }
