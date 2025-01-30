@@ -59,7 +59,27 @@ const ReadingList = () => {
         .catch((error) => {
             console.error("Error creating reading list:", error);
         });
-    }
+    };
+    const handleUpdateList = () => {
+        fetch(`http://127.0.0.1:5000/reading-lists/${currentList.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ name: newListName }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            //update the reading lists state with the updated list
+            setReadingLists(readingList.map((list) => (list.id === currentList.id ? data : list)));
+            setIsEditDialogOpen(false); //close the edit dialog
+            setNewListName(""); //clear the input field
+    })
+        .catch((error) => {
+            console.error("Error updating reading list:", error);
+        });
+    };
 
 
 }
