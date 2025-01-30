@@ -68,6 +68,34 @@ const Dashboard = () => {
             ))}
           </div>
         </section>
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+            <List className="mr-2 text-blue-500" />
+            My Reading Lists
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {userData?.reading_lists?.map((list) => (
+              <div
+                key={list.id}
+                className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg"
+              >
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">{list.name}</h3>
+                  <ul className="space-y-2">
+                    {list.books.map((book) => (
+                      <li key={book.id} className="flex items-start">
+                        <BookOpen className="w-5 h-5 mr-2 text-gray-400 flex-shrink-0 mt-1" />
+                        <span className="text-gray-700">
+                          {book.book.title} by {book.book.author}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
         </div>
         
       )
