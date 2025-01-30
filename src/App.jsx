@@ -6,6 +6,7 @@ import Home from './components/Home'
 import DashBoard from './components/DashBoard'
 import SignUp from './components/Authentication/SignUp.jsx'
 import HomeUser from './components/HomeUser.jsx'
+import ReadingList from './components/ReadingList.jsx'
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated, loading } = useUser();
 
@@ -28,6 +29,7 @@ function App() {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/dashboard' element={<ProtectedRoute element={ <DashBoard />} />} />
         <Route path='/home' element={<ProtectedRoute element={ <HomeUser />} />} />
+        <Route path='/reading-list' element={<ProtectedRoute element={ <ReadingList />} />} />
       </Routes>
     </Router>
   )

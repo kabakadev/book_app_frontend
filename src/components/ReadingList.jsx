@@ -1,10 +1,10 @@
-import {userContext} from '../context/userContext';
+import { useUser } from '../context/UserContext.js';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {Card, CardContent, Typography, Button,TextField, Dialog,DialogActions,DialogContent, DialogTitle} from '@mui/material';
 
 const ReadingList = () => {
-    const {user,isAuthenticated, loading } = userContext();
+    const {user,isAuthenticated, loading } = useUser();
     const navigate = useNavigate();
     const [readingList,setReadingLists] = useState([]);
     const [isFetching, setIsFetching] = useState(true);
@@ -21,8 +21,13 @@ const ReadingList = () => {
         }
     },[isAuthenticated,loading,navigate]);
 
+    if(!user || !user.id){
+        console.error("User Id is missing");
+        return;
+    }
+
     const fetchReadingLists = () => {
-        fetch("http://127.0.0.1:5000/reading-lists", {
+        fetch(`http://127.0.0.1:5000/reading-lists?user_id=${user.id}`, {
             credentials: "include",
         })
         .then((response) => response.json())
@@ -39,3 +44,4 @@ const ReadingList = () => {
 
 
 }
+export default ReadingList
