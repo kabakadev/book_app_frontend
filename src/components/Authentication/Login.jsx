@@ -110,7 +110,8 @@ function Login() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+                className="w-full bg-blue-500 text-white py-2 rounded hover:bg-opacity-90"
+                style={{ backgroundColor: "#8f7e4f", color: "#e0e0e0" }}
               >
                 {isSubmitting ? "Logging in..." : "Login"}
               </button>
