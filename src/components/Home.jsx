@@ -82,7 +82,7 @@ const getTheme = (mode) =>
 
 const Home = () => {
   const [reviews, setReviews] = useState([])
-  const [darkMode, setDarkMode] = useState(false) /
+  const [darkMode, setDarkMode] = useState(false) 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
   const navigate = useNavigate();
 
@@ -190,3 +190,18 @@ const Home = () => {
     </ThemeProvider>
   )
 }
+const Feature = ({ icon, title, description }) => (
+    <Grid item xs={12} sm={6} md={3}>
+      <Box sx={{ textAlign: "center" }}>
+        {icon}
+        <Typography variant="h5" sx={{ mt: 2, mb: 1 }}>
+          {title}
+        </Typography>
+        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+          {description}
+        </Typography>
+      </Box>
+    </Grid>
+  )
+  
+  export default Home
