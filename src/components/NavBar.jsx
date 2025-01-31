@@ -10,7 +10,7 @@ const NavBar = () => {
         navigate("/login");
     };
     return (
-        <nav className="bg-white shadow-md">
+        <nav className="bg-gray-800 shadow-md">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center py-4">
                     <div className="flex space-x-8">

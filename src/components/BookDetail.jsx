@@ -57,6 +57,13 @@ const BookDetail = () => {
 
 
     const handleAddReview = () => {
+        // Check if the user has already reviewed this book
+        const existingReview = reviews.find((review) => review.user_id === user.id);
+
+        if (existingReview) {
+            alert("User has already reviewed this book");
+            return;
+        }
         const payload = {
             user_id: user.id,   
             book_id: parseInt(id),  
@@ -104,6 +111,7 @@ const BookDetail = () => {
                 setReviews(reviews.map((review) =>
                     review.id === reviewId ? data : review
                 ));
+                setEditingReviewId(null)
             }
         })
         .catch((error) => {
@@ -185,7 +193,11 @@ const BookDetail = () => {
             value={rating}  
             onChange={(e, newValue) => setRating(newValue)}
             />
-            <Button variant="contained" color="primary" onClick={handleAddReview}>Submit Review</Button>
+            <Button variant="contained"
+             color="primary"
+             onClick={handleAddReview}
+             disabled={reviews.some((review) => review.user_id === user.id)}
+             >Submit Review</Button>
         </div>
 
     )
