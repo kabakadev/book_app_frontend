@@ -91,6 +91,65 @@ const ReadingList = () => {
     }).catch((error) => {
         console.error("Error deleting reading list:", error);
     });
+    return(
+        <div className="p-6 bg-gray-100 min-h-screen">
+            <h1 className="text-3xl font-bold mb-6">Reading List</h1>
+            <Button
+             onClick={() => setIsCreateDialogOpen(true)}
+             variant="contained"
+             className='mb-6'>
+                Create New List
+                </Button>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
+            {readingList.map((list) => (
+               <Card key={list.id} className='flex flex-col h-full'>
+                <CardContent className='flex-grow'>
+                    <Typography variant='h5' component='div'>
+                        {list.name}
+                    </Typography>
+                    <Typography variant='body2' color='text.secondary'>
+                        {list.books?.length || 0} books
+                    </Typography>
+                </CardContent>
+                <div className='p-4'>
+                    <Button
+                    onClick={() => {
+                        setCurrentList(list);
+                        setNewListName(list.name);
+                        setIsEditDialogOpen(true);
+                    }}
+                    variant='contained'
+                    className='mr-2'
+                    color='primary'>
+                        Edit
+                    </Button>
+                    <Button
+                    onClick={() => handleDeleteList(list.id)}
+                    variant='contained'
+                    color='secondary'>
+                        Delete
+                    </Button>
+                    </div>
+                    </Card>
+            ))}
+            </div>
+            <Dialog open={isCreateDialogOpen} onClose={() => setIsCreateDialogOpen(false)}>
+                <DialogTitle>Create New List</DialogTitle>
+                <DialogContent>
+                    <TextField
+                    label='List Name'
+                    value={newListName}
+                    onChange={(e) => setNewListName(e.target.value)}
+                    fullWidth
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setIsCreateDialogOpen(false)}>Cancel</Button>
+                    <Button onClick={handleCreateList} color='primary'>Create</Button>
+                </DialogActions>   
+            }
+
+    )
 }
 
 
