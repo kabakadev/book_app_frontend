@@ -2,7 +2,7 @@ import { useUser } from '../context/UserContext.js';
 import NavBar from './NavBar.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import {Card, CardContent, Typography, Button,TextField, Dialog,DialogActions,DialogContent, DialogTitle} from '@mui/material';
+import { Card, CardContent, Typography, Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select } from '@mui/material';
 
 const ReadingList = () => {
     const {user,isAuthenticated, loading } = useUser();
@@ -15,6 +15,7 @@ const ReadingList = () => {
     const [currentList, setCurrentList] = useState(null);
     const [availableBooks, setAvailableBooks] = useState([]);
     const [selectedBookIds, setSelectedBookIds] = useState([]);
+    const [selectedBooks, setSelectedBooks] = useState([]);
 
     useEffect(() => {
         if (!loading && !isAuthenticated) {
@@ -41,6 +42,7 @@ const ReadingList = () => {
                 : [...prevSelected, bookId]
         );
     };
+
   
 
 
@@ -69,6 +71,7 @@ const ReadingList = () => {
             body: JSON.stringify({ 
                 name: newListName,
                 user_id: user.id,
+                book_ids: selectedBooks
             }),
         })
         .then((response) => response.json())
@@ -76,11 +79,14 @@ const ReadingList = () => {
             setReadingLists((prevLists) => [...prevLists, data]);
             setIsCreateDialogOpen(false);
             setNewListName("");
+            setSelectedBooks([])
         })
         .catch((error) => {
             console.error("Error creating reading list:", error);
         });
     };
+
+    
     const handleUpdateList = () => {
         fetch(`http://127.0.0.1:5000/reading-lists/${currentList.id}`, {
             method: "PUT",
@@ -176,6 +182,11 @@ const ReadingList = () => {
                     onChange={(e) => setNewListName(e.target.value)}
                     fullWidth
                     />
+                    <Select multiple value={selectedBooks} onChange={(e) => setSelectedBooks(e.target.value)} fullWidth>
+                        {availableBooks.map((book) => (
+                            <MenuItem key={book.id} value={book.id}>{book.title} - {book.author}</MenuItem>
+                        ))}
+                    </Select>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => setIsCreateDialogOpen(false)}>Cancel</Button>
