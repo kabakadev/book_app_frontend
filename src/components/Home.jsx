@@ -125,3 +125,29 @@ const Home = () => {
             Start Your Journey
           </Button>
         </Container>
+        <Box sx={{ bgcolor: "background.paper", py: 10 }}>
+          <Container maxWidth="lg">
+            <Grid container spacing={6}>
+              <Feature
+                icon={<LibraryBooks fontSize="large" color="primary" />}
+                title="Curated Collections"
+                description="Discover handpicked book selections across various genres."
+              />
+              <Feature
+                icon={<RateReview fontSize="large" color="primary" />}
+                title="Thoughtful Reviews"
+                description="Share your insights and read authentic opinions from fellow readers."
+              />
+              <Feature
+                icon={<Bookmark fontSize="large" color="primary" />}
+                title="Personal Bookshelf"
+                description="Organize your reading list and track your literary journey."
+              />
+              <Feature
+                icon={<Recommend fontSize="large" color="primary" />}
+                title="Smart Recommendations"
+                description="Get personalized book suggestions based on your reading preferences."
+              />
+            </Grid>
+          </Container>
+        </Box>
