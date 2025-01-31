@@ -96,3 +96,20 @@ const Home = () => {
       .then((data) => setReviews(data))
       .catch((error) => console.error("Error fetching reviews:", error));
   }, []);
+  const theme = getTheme(darkMode ? "dark" : "light")
+  return (
+    <ThemeProvider theme={theme}>
+      <Box sx={{ minHeight: "100vh", bgcolor: "background.default", color: "text.primary" }}>
+        <AppBar position="static" color="transparent" elevation={0}>
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontFamily: "'Playfair Display', serif", fontSize: "1.5rem" }}>
+              BookNook
+            </Typography>
+            <IconButton onClick={() => setDarkMode((prev) => !prev)} color="inherit">
+              {darkMode ? <LightMode /> : <DarkMode />}
+            </IconButton>
+            <Button color="inherit" variant="outlined" sx={{ ml: 2 }} onClick={() => navigate("/login")}>
+              Login
+            </Button>
+          </Toolbar>
+        </AppBar>
