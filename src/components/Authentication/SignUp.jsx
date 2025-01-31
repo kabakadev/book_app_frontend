@@ -12,6 +12,7 @@ function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
+    <div style={{backgroundColor:'#1a1a1a', minHeight: '100vh', padding: '20px' }}>
     <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
 
@@ -107,6 +108,7 @@ function SignUp() {
         )}
       </Formik>
     </div>
+   </div>
   );
 }
 
