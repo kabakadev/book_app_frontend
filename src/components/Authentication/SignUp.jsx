@@ -58,6 +58,7 @@ function SignUp() {
               type="text"
               name="username"
               className="w-full p-2 border rounded"
+              style={{ backgroundColor: '#1a1a1a', borderColor: '#8f7e4f', color: '#e0e0e0' }}
             />
             <ErrorMessage
               name="username"
@@ -71,6 +72,7 @@ function SignUp() {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 className="w-full p-2 border rounded pr-10"
+                style={{ backgroundColor: '#1a1a1a', borderColor: '#8f7e4f', color: '#e0e0e0' }}
               />
               <button
                 type="button"
@@ -89,7 +91,8 @@ function SignUp() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+              className="w-full py-2 rounded hover:bg-opacity-90"
+              style={{ backgroundColor: '#8f7e4f', color: '#e0e0e0' }}
             >
               {isSubmitting ? "Signing up..." : "Sign Up"}
             </button>
