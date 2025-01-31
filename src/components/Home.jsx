@@ -79,3 +79,9 @@ const getTheme = (mode) =>
         },
       },
     })
+
+const Home = () => {
+  const [reviews, setReviews] = useState([])
+  const [darkMode, setDarkMode] = useState(false) /
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)")
+  const navigate = useNavigate();
