@@ -151,3 +151,24 @@ const Home = () => {
             </Grid>
           </Container>
         </Box>
+        <Container maxWidth="lg" sx={{ py: 10 }}>
+          <Typography variant="h3" gutterBottom sx={{ textAlign: "center", mb: 6 }}>
+            Reader Insights
+          </Typography>
+          <Grid container spacing={4}>
+            {reviews.map((review, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography variant="h5" gutterBottom>
+                      {review.book.title}
+                    </Typography>
+                    <Typography sx={{ color: "text.secondary", mb: 2 }}>by {review.book.author}</Typography>
+                    <Rating value={review.rating} readOnly size="small" sx={{ mb: 2 }} />
+                    <Typography variant="body2">"{review.review_text}"</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
