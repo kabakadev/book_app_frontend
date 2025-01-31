@@ -10,6 +10,7 @@ function Login(){
     const [loginError, setLoginError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     return (
+        <div style={{ backgroundColor: '#1a1a1a', minHeight: '100vh', padding: '20px' }}>
         <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Login</h2>
             {loginError && (
@@ -73,6 +74,7 @@ function Login(){
         </Form>
         )}
     </Formik>
+    </div>
     </div>
     )
 }
