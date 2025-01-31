@@ -13,6 +13,8 @@ const ReadingList = () => {
     const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const [currentList, setCurrentList] = useState(null);
+    const [availableBooks, setAvailableBooks] = useState([]);
+    const [selectedBookIds, setSelectedBookIds] = useState([]);
 
     useEffect(() => {
         if (!loading && !isAuthenticated) {
@@ -26,6 +28,19 @@ const ReadingList = () => {
         console.error("User Id is missing");
         return;
     }
+    useEffect(() => {
+        fetch(`http://127.0.0.1:5000/books`, { credentials: "include" })
+            .then((response) => response.json())
+            .then((data) => setAvailableBooks(data))
+            .catch((error) => console.error("Error fetching books:", error));
+    }, []);
+    const toggleBookSelection = (bookId) => {
+        setSelectedBookIds((prevSelected) =>
+            prevSelected.includes(bookId)
+                ? prevSelected.filter((id) => id !== bookId)
+                : [...prevSelected, bookId]
+        );
+    };
   
 
 
@@ -73,7 +88,10 @@ const ReadingList = () => {
                 "Content-Type": "application/json",
             },
             credentials: "include",
-            body: JSON.stringify({ name: newListName }),
+            body: JSON.stringify({ 
+                name: newListName,
+                book_ids: selectedBookIds,
+             }),
         })
         .then((response) => response.json())
         .then((data) => {
@@ -167,6 +185,16 @@ const ReadingList = () => {
                 </Dialog>
                 <Dialog open={isEditDialogOpen} onClose={() => setIsEditDialogOpen(false)}>
                     <DialogTitle>Edit Reading List</DialogTitle>
+                    {availableBooks.map((book) => ( 
+                      <div key={book.id}>
+                        <input
+                        type='checkbox'
+                        checked={selectedBookIds.includes(book.id)}  
+                        onChange={()=> toggleBookSelection(book.id)}  
+                        />{book.title} by {book.author}
+                        </div>
+                    ))
+                    }
                     <DialogContent>
                         <TextField
                         autoFocus
