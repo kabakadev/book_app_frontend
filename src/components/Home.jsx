@@ -59,3 +59,23 @@ const getTheme = (mode) =>
           fontFamily: "'Playfair Display', serif",
         },
       },
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              borderRadius: 0,
+              textTransform: "none",
+              fontWeight: 600,
+            },
+          },
+        },
+        MuiCard: {
+          styleOverrides: {
+            root: {
+              borderRadius: 0,
+              boxShadow: mode === "dark" ? "0 4px 6px rgba(255, 255, 255, 0.1)" : "0 4px 6px rgba(0, 0, 0, 0.1)",
+            },
+          },
+        },
+      },
+    })
