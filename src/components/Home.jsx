@@ -113,3 +113,15 @@ const Home = () => {
             </Button>
           </Toolbar>
         </AppBar>
+
+        <Container maxWidth="md" sx={{ textAlign: "center", py: 12 }}>
+          <Typography variant="h1" gutterBottom sx={{ fontSize: { xs: "3rem", md: "4.5rem" }, fontWeight: 700 }}>
+            Discover Your Next Great Read
+          </Typography>
+          <Typography variant="h5" sx={{ color: "text.secondary", mb: 6, fontWeight: 400 }}>
+            Explore, review, and connect with a community of book lovers.
+          </Typography>
+          <Button variant="contained" size="large" color="secondary" sx={{ py: 1.5, px: 4 }} onClick={() => navigate("/signup")}>
+            Start Your Journey
+          </Button>
+        </Container>
