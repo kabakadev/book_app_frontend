@@ -42,5 +42,25 @@ const BookDetail = () => {
             console.error("Error adding review:", error);
         });
     };
+
+    if (!book) {
+        return <p>Loading...</p>
+    }   
+    return (
+        <div className="p-6 bg-gray-100 min-h-screen">
+            <Button onClick={() => navigate("/")} className="mb-4">Back to Home</Button>    
+            <Typography variant="h3">{book.title}</Typography>
+            <Typography variant="h5">{book.author}</Typography>
+            <Typography variant="body1">{book.genre}</Typography>
+            <Typography variant="body1">{book.publication_year}</Typography>
+            <Typography variant="body1">{book.pages_count} pages</Typography>
+
+            <Typography variant="h4">Reviews</Typography>
+            {reviews.map((rev, index) => (
+                <Typography key={index} variant="body1">{rev}</Typography>
+            ))}
+
+    )
+    
     
 }
