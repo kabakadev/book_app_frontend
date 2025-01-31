@@ -25,13 +25,16 @@ const BookDetail = () => {
     },[id]);
 
     const handleAddReview = () => {
-        fetch(`http://127.0.0.1:5000/books/${id}/reviews`, {
+        fetch(`http://127.0.0.1:5000/books/reviews`, {
             method: "POST",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ review }),
+            body: JSON.stringify({ user_id: user.id,
+                book_id: id,
+                review_text: reviewText,
+                rating: rating, }),
         })
         .then((response) => response.json())
         .then((data) => {
@@ -40,6 +43,33 @@ const BookDetail = () => {
         })
         .catch((error) => {
             console.error("Error adding review:", error);
+        });
+    };
+    const handleEditReview = (reviewId,updatedText,updatedRating) => {
+        fetch(`http://127.0.0.1:5000/reviews/${reviewId}`, { 
+            method: "PUT",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                review_text: updatedText,
+                rating: updatedRating,
+            }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.error) {
+                console.error(data.error);
+            } else {
+                
+                setReviews(reviews.map((review) =>
+                    review.id === reviewId ? data : review
+                ));
+            }
+        })
+        .catch((error) => {
+            console.error("Error updating review:", error);
         });
     };
 
@@ -75,3 +105,4 @@ const BookDetail = () => {
     
     
 }
+export default BookDetail;
