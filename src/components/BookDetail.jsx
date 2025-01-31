@@ -72,6 +72,24 @@ const BookDetail = () => {
             console.error("Error updating review:", error);
         });
     };
+    const handleDeleteReview = (reviewId) => {
+        fetch(`http://127.0.0.1:5000/reviews/${reviewId}`, { 
+            method: "DELETE",
+            credentials: "include",
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.error) {
+                console.error(data.error);
+            } else {
+                
+                setReviews(reviews.filter((review) => review.id !== reviewId));
+            }
+        })
+        .catch((error) => {
+            console.error("Error deleting review:", error);
+        });
+    };
 
     if (!book) {
         return <p>Loading...</p>
