@@ -2,16 +2,25 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Typography, Button, TextField,Rating } from '@mui/material';
 import { useUser } from "../context/UserContext.js";
+import NavBar from "./NavBar";
 
 const BookDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { isAuthenticated, loading, user } = useUser();
     const [book,setBook] = useState(null);
-    const [review, setReview] = useState("");
     const [reviewText, setReviewText] = useState("");
     const [rating, setRating] = useState(0);
     const [reviews,setReviews] = useState("");
+    const [editingReviewId, setEditingReviewId] = useState(null);
+    const [editedText, setEditedText] = useState("");
+    const [editedRating, setEditedRating] = useState(0);
+
+    const handleEditClick = (review) => {
+        setEditingReviewId(review.id);
+        setEditedText(review.review_text);
+        setEditedRating(review.rating);
+    };
 
  // Fetch book details and reviews
  useEffect(() => {
@@ -74,7 +83,7 @@ const BookDetail = () => {
             console.error("Error adding review:", error);
         });
     };
-    const handleEditReview = (reviewId,updatedText,updatedRating) => {
+    const handleEditReview = (reviewId) => {
         fetch(`http://127.0.0.1:5000/reviews/${reviewId}`, { 
             method: "PUT",
             credentials: "include",
@@ -82,8 +91,8 @@ const BookDetail = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                review_text: updatedText,
-                rating: updatedRating,
+                review_text: editedText,
+                rating: editedRating,
             }),
         })
         .then((response) => response.json())
@@ -126,26 +135,45 @@ const BookDetail = () => {
  
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
-            <Button onClick={() => navigate("/")} className="mb-4">Back to Home</Button>    
+            <NavBar /> 
             <Typography variant="h3">{book.title}</Typography>
             <Typography variant="h5">{book.author}</Typography>
             <Typography variant="body1">{book.genre}</Typography>
             <Typography variant="body1">{book.publication_year}</Typography>
-            <Typography variant="body1">{book.pages_count} pages</Typography>
+            <Typography variant="body1">{book.page_count} pages</Typography>
 
             <Typography variant="h4">Reviews</Typography>
             {reviews.map((review) => (
-              <div key={review.id} >
+    <div key={review.id}>
+        {editingReviewId === review.id ? (
+            <div>
+                <TextField
+                    value={editedText}
+                    onChange={(e) => setEditedText(e.target.value)}
+                    fullWidth
+                />
+                <Rating
+                    value={editedRating}
+                    onChange={(e, newValue) => setEditedRating(newValue)}
+                />
+                <Button onClick={() => handleEditReview(review.id)}>Save</Button>
+                <Button onClick={() => setEditingReviewId(null)}>Cancel</Button>
+            </div>
+        ) : (
+            <div>
                 <Typography variant="body1">{review.review_text}</Typography>
                 <Rating value={review.rating} readOnly />
                 {review.user_id === user.id && (
-            <div>
-                <Button onClick={() => handleEditReview(review.id, "Updated review text", 5)}>Edit</Button>
-                <Button onClick={() => handleDeleteReview(review.id)}>Delete</Button>
-            </div> 
-            )} 
+                    <div>
+                        <Button onClick={() => handleEditClick(review)}>Edit</Button>
+                        <Button onClick={() => handleDeleteReview(review.id)}>Delete</Button>
+                    </div>
+                )}
             </div>
-            ))}  
+        )}
+    </div>
+))}
+
             <TextField
                 label="Add a Review"
                 value={reviewText}
