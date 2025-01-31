@@ -172,3 +172,21 @@ const Home = () => {
             ))}
           </Grid>
         </Container>
+
+        <Box sx={{ bgcolor: "background.paper", py: 10 }}>
+          <Container maxWidth="md" sx={{ textAlign: "center" }}>
+            <Typography variant="h3" gutterBottom>
+              Join Our Literary Community
+            </Typography>
+            <Typography variant="h6" sx={{ color: "text.secondary", mb: 4, fontWeight: 400 }}>
+              Connect with fellow book enthusiasts and embark on countless literary adventures.
+            </Typography>
+            <Button variant="contained" size="large" color="secondary" sx={{ py: 1.5, px: 4 }} onClick={() => navigate("/signup")}>
+              Sign Up Now
+            </Button>
+          </Container>
+        </Box>
+      </Box>
+    </ThemeProvider>
+  )
+}
