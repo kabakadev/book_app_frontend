@@ -59,6 +59,17 @@ const BookDetail = () => {
             {reviews.map((rev, index) => (
                 <Typography key={index} variant="body1">{rev}</Typography>
             ))}
+            <TextField
+                label="Add a review"
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+                fullWidth
+                margin="normal"
+            />
+            <Button variant="contained" color="primary" onClick={handleAddReview}>
+                Submit Review
+            </Button>
+        </div>
 
     )
     
