@@ -13,8 +13,8 @@ function SignUp() {
 
   return (
     <div style={{backgroundColor:'#1a1a1a', minHeight: '100vh', padding: '20px' }}>
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
+    <div className="max-w-md mx-auto mt-10 p-6 shadow-lg rounded-lg" style={{backgroundColor:'#2c2c2c',color:'#e0e0e0'}}> 
+      <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>Sign Up</h2>
 
       {signupError && (
         <div
