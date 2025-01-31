@@ -1,4 +1,5 @@
 import { useUser } from '../context/UserContext.js';
+import NavBar from './NavBar.jsx';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import {Card, CardContent, Typography, Button,TextField, Dialog,DialogActions,DialogContent, DialogTitle} from '@mui/material';
@@ -16,15 +17,17 @@ const ReadingList = () => {
     useEffect(() => {
         if (!loading && !isAuthenticated) {
             navigate("/login");
-        } else {
+        } else if ( (user && user.id)){
             fetchReadingLists();
-        }
+        }   
     },[isAuthenticated,loading,navigate]);
 
     if(!user || !user.id){
         console.error("User Id is missing");
         return;
     }
+  
+
 
     const fetchReadingLists = () => {
         fetch(`http://127.0.0.1:5000/reading-lists?user_id=${user.id}`, {
@@ -48,11 +51,14 @@ const ReadingList = () => {
                 "Content-Type": "application/json",
             },
             credentials: "include",
-            body: JSON.stringify({ name: newListName }),
+            body: JSON.stringify({ 
+                name: newListName,
+                user_id: user.id,
+            }),
         })
         .then((response) => response.json())
         .then((data) => {
-            setReadingLists([...readingList, data]);
+            setReadingLists((prevLists) => [...prevLists, data]);
             setIsCreateDialogOpen(false);
             setNewListName("");
         })
@@ -75,7 +81,7 @@ const ReadingList = () => {
             setReadingLists(readingList.map((list) => (list.id === currentList.id ? data : list)));
             setIsEditDialogOpen(false); //close the edit dialog
             setNewListName(""); //clear the input field
-    })
+       })
         .catch((error) => {
             console.error("Error updating reading list:", error);
         });
@@ -88,11 +94,13 @@ const ReadingList = () => {
         .then(() => {
             //remove the deleted list from the readingLists state
             setReadingLists(readingList.filter((list) => list.id !== id));  
-    }).catch((error) => {
+       }).catch((error) => {
         console.error("Error deleting reading list:", error);
     });
+  }
     return(
         <div className="p-6 bg-gray-100 min-h-screen">
+            <NavBar />
             <h1 className="text-3xl font-bold mb-6">Reading List</h1>
             <Button
              onClick={() => setIsCreateDialogOpen(true)}
@@ -101,8 +109,10 @@ const ReadingList = () => {
                 Create New List
                 </Button>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-            {readingList.map((list) => (
-               <Card key={list.id} className='flex flex-col h-full'>
+            {readingList.map((list) => {
+               console.log("List ID:", list.id);
+               return (
+                <Card key={list.id} className='flex flex-col h-full'>
                 <CardContent className='flex-grow'>
                     <Typography variant='h5' component='div'>
                         {list.name}
@@ -131,13 +141,19 @@ const ReadingList = () => {
                     </Button>
                     </div>
                     </Card>
-            ))}
+               )
+            }
+               
+            )}
             </div>
             <Dialog open={isCreateDialogOpen} onClose={() => setIsCreateDialogOpen(false)}>
                 <DialogTitle>Create New List</DialogTitle>
                 <DialogContent>
                     <TextField
+                    autoFocus
+                    margin='dense'
                     label='List Name'
+                    type='text'
                     value={newListName}
                     onChange={(e) => setNewListName(e.target.value)}
                     fullWidth
@@ -146,12 +162,32 @@ const ReadingList = () => {
                 <DialogActions>
                     <Button onClick={() => setIsCreateDialogOpen(false)}>Cancel</Button>
                     <Button onClick={handleCreateList} color='primary'>Create</Button>
-                </DialogActions>   
-            }
+                </DialogActions>
 
-    )
-}
+                </Dialog>
+                <Dialog open={isEditDialogOpen} onClose={() => setIsEditDialogOpen(false)}>
+                    <DialogTitle>Edit Reading List</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                        autoFocus
+                        margin='dense'
+                        label='List Name'
+                        type='text'
+                        value={newListName}
+                        onChange={(e) => setNewListName(e.target.value)}
+                        fullWidth
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setIsEditDialogOpen(false)}>Cancel</Button>
+                        <Button onClick={handleUpdateList} color='primary'>Update</Button>
+                    </DialogActions>  
+                </Dialog>
+        </div>
+    
+    
+    );
+  
+} 
 
-
-}
 export default ReadingList
