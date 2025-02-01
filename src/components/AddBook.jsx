@@ -45,6 +45,7 @@ const AddBook = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(values),
+          credentials: "include",
         });
 
         if (response.ok) {
@@ -119,100 +120,100 @@ const AddBook = () => {
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium">Author</label>
+          <label className="block text-sm font-medium">Genre</label>
           <input
             type="text"
-            name="author"
-            value={formik.values.author}
+            name="genre"
+            value={formik.values.genre}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`w-full px-3 py-2 border ${
-              formik.touched.author && formik.errors.author
+              formik.touched.genre && formik.errors.genre
                 ? "border-red-500"
                 : "border-gray-300"
             } rounded`}
           />
-          {formik.touched.author && formik.errors.author && (
-            <p className="text-red-500 text-sm">{formik.errors.author}</p>
+          {formik.touched.genre && formik.errors.genre && (
+            <p className="text-red-500 text-sm">{formik.errors.genre}</p>
           )}
-        </div>{" "}
-        //genre
+        </div>
         <div>
-          <label className="block text-sm font-medium">Author</label>
+          <label className="block text-sm font-medium">description</label>
           <input
             type="text"
-            name="author"
-            value={formik.values.author}
+            name="description"
+            value={formik.values.description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`w-full px-3 py-2 border ${
-              formik.touched.author && formik.errors.author
+              formik.touched.description && formik.errors.description
                 ? "border-red-500"
                 : "border-gray-300"
             } rounded`}
           />
-          {formik.touched.author && formik.errors.author && (
-            <p className="text-red-500 text-sm">{formik.errors.author}</p>
+          {formik.touched.description && formik.errors.description && (
+            <p className="text-red-500 text-sm">{formik.errors.description}</p>
           )}
-        </div>{" "}
-        //description
+        </div>
         <div>
-          <label className="block text-sm font-medium">Author</label>
+          <label className="block text-sm font-medium">Page COunt</label>
           <input
-            type="text"
-            name="author"
-            value={formik.values.author}
+            type="number"
+            name="page_count"
+            value={formik.values.page_count}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`w-full px-3 py-2 border ${
-              formik.touched.author && formik.errors.author
+              formik.touched.page_count && formik.errors.page_count
                 ? "border-red-500"
                 : "border-gray-300"
             } rounded`}
           />
-          {formik.touched.author && formik.errors.author && (
-            <p className="text-red-500 text-sm">{formik.errors.author}</p>
+          {formik.touched.page_count && formik.errors.page_count && (
+            <p className="text-red-500 text-sm">{formik.errors.page_count}</p>
           )}
-        </div>{" "}
-        //page_count
+        </div>
         <div>
-          <label className="block text-sm font-medium">Author</label>
+          <label className="block text-sm font-medium">Image Url</label>
           <input
             type="text"
-            name="author"
-            value={formik.values.author}
+            name="image_url"
+            value={formik.values.image_url}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`w-full px-3 py-2 border ${
-              formik.touched.author && formik.errors.author
+              formik.touched.image_url && formik.errors.image_url
                 ? "border-red-500"
                 : "border-gray-300"
             } rounded`}
           />
-          {formik.touched.author && formik.errors.author && (
-            <p className="text-red-500 text-sm">{formik.errors.author}</p>
+          {formik.touched.image_url && formik.errors.image_url && (
+            <p className="text-red-500 text-sm">{formik.errors.image_url}</p>
           )}
-        </div>{" "}
-        //image_url
+        </div>
+
         <div>
-          <label className="block text-sm font-medium">Author</label>
+          <label className="block text-sm font-medium">Publication Year</label>
           <input
-            type="text"
-            name="author"
-            value={formik.values.author}
+            type="number"
+            name="publication_year"
+            value={formik.values.publication_year}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className={`w-full px-3 py-2 border ${
-              formik.touched.author && formik.errors.author
+              formik.touched.publication_year && formik.errors.publication_year
                 ? "border-red-500"
                 : "border-gray-300"
             } rounded`}
           />
-          {formik.touched.author && formik.errors.author && (
-            <p className="text-red-500 text-sm">{formik.errors.author}</p>
-          )}
-        </div>{" "}
-        //publication_year
+          {formik.touched.publication_year &&
+            formik.errors.publication_year && (
+              <p className="text-red-500 text-sm">
+                {formik.errors.publication_year}
+              </p>
+            )}
+        </div>
+
         <button
           type="submit"
           disabled={formik.isSubmitting}
