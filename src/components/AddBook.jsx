@@ -121,10 +121,10 @@ const AddBook = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium">Title</label>
+                <label className="block text-sm font-medium">Author</label>
                 <Field
                   type="text"
-                  name="title"
+                  name="author"
                   className="w-full p-2 border rounded"
                   style={{
                     backgroundColor: "#1a1a1a",
@@ -133,17 +133,17 @@ const AddBook = () => {
                   }}
                 />
                 <ErrorMessage
-                  name="title"
+                  name="author"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
-              //author
+
               <div>
-                <label className="block text-sm font-medium">Title</label>
+                <label className="block text-sm font-medium">Genre</label>
                 <Field
                   type="text"
-                  name="title"
+                  name="genre"
                   className="w-full p-2 border rounded"
                   style={{
                     backgroundColor: "#1a1a1a",
@@ -152,17 +152,17 @@ const AddBook = () => {
                   }}
                 />
                 <ErrorMessage
-                  name="title"
+                  name="genre"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
-              //genre
+
               <div>
-                <label className="block text-sm font-medium">Title</label>
+                <label className="block text-sm font-medium">Description</label>
                 <Field
                   type="text"
-                  name="title"
+                  name="description"
                   className="w-full p-2 border rounded"
                   style={{
                     backgroundColor: "#1a1a1a",
@@ -171,17 +171,17 @@ const AddBook = () => {
                   }}
                 />
                 <ErrorMessage
-                  name="title"
+                  name="description"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
-              //description
+
               <div>
-                <label className="block text-sm font-medium">Title</label>
+                <label className="block text-sm font-medium">Page_count</label>
                 <Field
-                  type="text"
-                  name="title"
+                  type="number"
+                  name="page_count"
                   className="w-full p-2 border rounded"
                   style={{
                     backgroundColor: "#1a1a1a",
@@ -190,17 +190,17 @@ const AddBook = () => {
                   }}
                 />
                 <ErrorMessage
-                  name="title"
+                  name="page_count"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
-              //page_count
+
               <div>
-                <label className="block text-sm font-medium">Title</label>
+                <label className="block text-sm font-medium">Image Url</label>
                 <Field
                   type="text"
-                  name="title"
+                  name="image_url"
                   className="w-full p-2 border rounded"
                   style={{
                     backgroundColor: "#1a1a1a",
@@ -209,17 +209,19 @@ const AddBook = () => {
                   }}
                 />
                 <ErrorMessage
-                  name="title"
+                  name="image_url"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
-              //image_url
+
               <div>
-                <label className="block text-sm font-medium">Title</label>
+                <label className="block text-sm font-medium">
+                  Publication_year
+                </label>
                 <Field
-                  type="text"
-                  name="title"
+                  type="number"
+                  name="publication_year"
                   className="w-full p-2 border rounded"
                   style={{
                     backgroundColor: "#1a1a1a",
@@ -228,12 +230,12 @@ const AddBook = () => {
                   }}
                 />
                 <ErrorMessage
-                  name="title"
+                  name="publication_year"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
-              //publication_year
+
               <button
                 type="submit"
                 disabled={isSubmitting}

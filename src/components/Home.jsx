@@ -107,6 +107,9 @@ const Home = () => {
       .catch((error) => console.error("Error fetching reviews:", error));
   }, []);
   const theme = getTheme(darkMode ? "dark" : "light");
+  const shuffledReviews = [...reviews]
+    .sort(() => Math.random() - 0.5) // Shuffle array
+    .slice(0, 9); // Take first 9 elements
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -204,7 +207,7 @@ const Home = () => {
             Reader Insights
           </Typography>
           <Grid container spacing={4}>
-            {reviews.map((review, index) => (
+            {shuffledReviews.map((review, index) => (
               <Grid item xs={12} md={4} key={index}>
                 <Card
                   sx={{
