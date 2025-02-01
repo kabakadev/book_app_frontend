@@ -13,6 +13,7 @@ import SignUp from "./components/Authentication/SignUp.jsx";
 import HomeUser from "./components/HomeUser.jsx";
 import ReadingList from "./components/ReadingList.jsx";
 import BookDetail from "./components/BookDetail.jsx";
+import AddBook from "./components/AddBook.jsx";
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated, loading } = useUser();
 
@@ -42,6 +43,10 @@ function App() {
         <Route
           path="/reading-list"
           element={<ProtectedRoute element={<ReadingList />} />}
+        />
+        <Route
+          path="/addbook"
+          element={<ProtectedRoute element={<AddBook />} />}
         />
         <Route
           path="/books/:id"

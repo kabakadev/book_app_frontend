@@ -58,6 +58,15 @@ const HomeUser = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
+      <div className="mb-6 text-right">
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => navigate("/addbook")}
+        >
+          Add New Book
+        </Button>
+      </div>
       <Grid container spacing={4}>
         {filteredBooks.map((book) => (
           <Grid item key={book.id} xs={12} sm={6} md={4} lg={3}>
