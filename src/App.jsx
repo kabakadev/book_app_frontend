@@ -14,6 +14,9 @@ import HomeUser from "./components/HomeUser.jsx";
 import ReadingList from "./components/ReadingList.jsx";
 import BookDetail from "./components/BookDetail.jsx";
 import AddBook from "./components/AddBook.jsx";
+import { ToastContainer } from "react-toastify"; // Import ToastContainer
+import "react-toastify/dist/ReactToastify.css"; // Import the CSS
+
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated, loading } = useUser();
 
@@ -28,6 +31,18 @@ const ProtectedRoute = ({ element }) => {
 function App() {
   return (
     <Router>
+      {/* Add ToastContainer here */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="login" element={<Login />} />
