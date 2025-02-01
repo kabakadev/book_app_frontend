@@ -1,16 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {
-  Typography,
-  Button,
-  TextField,
-  Rating,
-  Box,
-  Card,
-  CardContent,
-} from "@mui/material";
 import { useUser } from "../context/UserContext.js";
 import NavBar from "./NavBar";
+import { Star, Edit, Trash2 } from "lucide-react";
 
 const BookDetail = () => {
   const { id } = useParams();
@@ -52,7 +44,7 @@ const BookDetail = () => {
 
     const payload = {
       user_id: user.id,
-      book_id: parseInt(id),
+      book_id: Number.parseInt(id),
       review_text: reviewText,
       rating: rating,
     };
@@ -119,113 +111,252 @@ const BookDetail = () => {
       });
   };
 
+  const containerStyle = {
+    backgroundColor: "#1a1a1a",
+    minHeight: "100vh",
+    color: "#e0e0e0",
+    fontFamily: "Georgia, serif",
+  };
+
+  const contentStyle = {
+    padding: "2rem",
+    maxWidth: "1200px",
+    margin: "0 auto",
+  };
+
+  const bookDetailsStyle = {
+    display: "flex",
+    flexDirection: "row",
+    gap: "2rem",
+    marginBottom: "2rem",
+  };
+
+  const bookImageStyle = {
+    maxWidth: "300px",
+    height: "auto",
+    borderRadius: "8px",
+    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  };
+
+  const bookInfoStyle = {
+    flex: 1,
+  };
+
+  const headingStyle = {
+    fontSize: "2.5rem",
+    fontWeight: "bold",
+    color: "#c19a6b",
+    marginBottom: "0.5rem",
+  };
+
+  const subheadingStyle = {
+    fontSize: "1.5rem",
+    color: "#d8b384",
+    marginBottom: "0.5rem",
+  };
+
+  const textStyle = {
+    fontSize: "1rem",
+    color: "#b0bec5",
+    marginBottom: "0.5rem",
+  };
+
+  const reviewSectionStyle = {
+    marginTop: "2rem",
+  };
+
+  const reviewHeadingStyle = {
+    fontSize: "2rem",
+    fontWeight: "bold",
+    color: "#c19a6b",
+    marginBottom: "1rem",
+  };
+
+  const reviewCardStyle = {
+    backgroundColor: "#2c2c2c",
+    borderRadius: "8px",
+    padding: "1rem",
+    marginBottom: "1rem",
+  };
+
+  const buttonStyle = {
+    backgroundColor: "#8f7e4f",
+    color: "#1a1a1a",
+    border: "none",
+    padding: "0.5rem 1rem",
+    fontSize: "1rem",
+    fontFamily: "Georgia, serif",
+    cursor: "pointer",
+    marginRight: "0.5rem",
+    transition: "background-color 0.3s ease",
+  };
+
+  const inputStyle = {
+    width: "100%",
+    padding: "0.5rem",
+    marginBottom: "1rem",
+    backgroundColor: "#2c2c2c",
+    border: "1px solid #8f7e4f",
+    borderRadius: "4px",
+    color: "#e0e0e0",
+    fontSize: "1rem",
+  };
+
+  const starContainerStyle = {
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "0.5rem",
+  };
+
+  const starStyle = {
+    color: "#d8b384",
+    marginRight: "0.25rem",
+    cursor: "pointer",
+  };
+
+  const renderStars = (value, onChange) => {
+    return (
+      <div style={starContainerStyle}>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <Star
+            key={star}
+            size={20}
+            style={{
+              ...starStyle,
+              fill: star <= value ? "#d8b384" : "none",
+            }}
+            onClick={() => onChange && onChange(star)}
+          />
+        ))}
+      </div>
+    );
+  };
+
   if (!book) {
-    return <p>Loading...</p>;
+    return (
+      <div
+        style={{
+          ...containerStyle,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "48px",
+            height: "48px",
+            border: "4px solid #2c2c2c",
+            borderTop: "4px solid #c19a6b",
+            borderRadius: "50%",
+            animation: "spin 1s linear infinite",
+          }}
+        ></div>
+        <style>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+      </div>
+    );
   }
 
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div style={containerStyle}>
       <NavBar />
-      <Box display="flex" flexDirection="row" gap={4} mb={4}>
-        <Box>
+      <div style={contentStyle}>
+        <div style={bookDetailsStyle}>
           <img
-            src={book.image_url}
+            src={book.image_url || "/placeholder.svg"}
             alt={book.title}
-            style={{ maxWidth: "300px", margin: "20px 0" }}
+            style={bookImageStyle}
           />
-        </Box>
-        <Box>
-          <Typography variant="h3">{book.title}</Typography>
-          <Typography variant="h5">{book.author}</Typography>
-          <Typography variant="body1">{book.genre}</Typography>
-          <Typography variant="body1">{book.publication_year}</Typography>
-          <Typography variant="body1">{book.page_count} pages</Typography>
-        </Box>
-      </Box>
+          <div style={bookInfoStyle}>
+            <h1 style={headingStyle}>{book.title}</h1>
+            <h2 style={subheadingStyle}>{book.author}</h2>
+            <p style={textStyle}>{book.genre}</p>
+            <p style={textStyle}>{book.publication_year}</p>
+            <p style={textStyle}>{book.page_count} pages</p>
+          </div>
+        </div>
 
-      <Typography variant="h4" mb={2}>
-        Reviews
-      </Typography>
-      {reviews.map((review) => (
-        <Card key={review.id} style={{ marginBottom: "16px" }}>
-          <CardContent>
-            {editingReviewId === review.id ? (
-              <Box display="flex" flexDirection="column" gap={2}>
-                <TextField
-                  value={editedText}
-                  onChange={(e) => setEditedText(e.target.value)}
-                  fullWidth
-                />
-                <Rating
-                  value={editedRating}
-                  onChange={(e, newValue) => setEditedRating(newValue)}
-                />
-                <Box display="flex" gap={2}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleEditReview(review.id)}
-                  >
-                    Save
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={() => setEditingReviewId(null)}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </Box>
-            ) : (
-              <Box>
-                <Typography variant="body1">{review.review_text}</Typography>
-                <Rating value={review.rating} readOnly />
-                {review.user_id === user.id && (
-                  <Box display="flex" gap={2} mt={2}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => handleEditClick(review)}
+        <div style={reviewSectionStyle}>
+          <h2 style={reviewHeadingStyle}>Reviews</h2>
+          {reviews.map((review) => (
+            <div key={review.id} style={reviewCardStyle}>
+              {editingReviewId === review.id ? (
+                <div>
+                  <textarea
+                    value={editedText}
+                    onChange={(e) => setEditedText(e.target.value)}
+                    style={inputStyle}
+                  />
+                  {renderStars(editedRating, setEditedRating)}
+                  <div>
+                    <button
+                      style={buttonStyle}
+                      onClick={() => handleEditReview(review.id)}
                     >
-                      Edit
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={() => handleDeleteReview(review.id)}
+                      Save
+                    </button>
+                    <button
+                      style={{
+                        ...buttonStyle,
+                        backgroundColor: "#2c2c2c",
+                        color: "#e0e0e0",
+                      }}
+                      onClick={() => setEditingReviewId(null)}
                     >
-                      Delete
-                    </Button>
-                  </Box>
-                )}
-              </Box>
-            )}
-          </CardContent>
-        </Card>
-      ))}
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <p style={textStyle}>{review.review_text}</p>
+                  {renderStars(review.rating)}
+                  {review.user_id === user.id && (
+                    <div>
+                      <button
+                        style={buttonStyle}
+                        onClick={() => handleEditClick(review)}
+                      >
+                        <Edit size={16} style={{ marginRight: "0.25rem" }} />
+                        Edit
+                      </button>
+                      <button
+                        style={{ ...buttonStyle, backgroundColor: "#d8b384" }}
+                        onClick={() => handleDeleteReview(review.id)}
+                      >
+                        <Trash2 size={16} style={{ marginRight: "0.25rem" }} />
+                        Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
 
-      <Box mt={4}>
-        <TextField
-          label="Add a Review"
-          value={reviewText}
-          onChange={(e) => setReviewText(e.target.value)}
-          fullWidth
-          margin="normal"
-        />
-        <Rating
-          value={rating}
-          onChange={(e, newValue) => setRating(newValue)}
-          style={{ marginBottom: "16px" }}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleAddReview}
-          disabled={reviews.some((review) => review.user_id === user.id)}
-        >
-          Submit Review
-        </Button>
-      </Box>
+        <div style={{ marginTop: "2rem" }}>
+          <textarea
+            placeholder="Add a Review"
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            style={inputStyle}
+          />
+          {renderStars(rating, setRating)}
+          <button
+            style={buttonStyle}
+            onClick={handleAddReview}
+            disabled={reviews.some((review) => review.user_id === user.id)}
+          >
+            Submit Review
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

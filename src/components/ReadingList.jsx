@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext.js";
 import { useNavigate } from "react-router-dom";
-import { Book, Edit, Delete, Plus } from "lucide-react";
 import NavBar from "./NavBar.jsx";
+import { Book, Plus, Edit, Trash2 } from "lucide-react";
 
 const ReadingList = () => {
   const { user, isAuthenticated, loading } = useUser();
@@ -123,7 +123,12 @@ const ReadingList = () => {
     minHeight: "100vh",
     color: "#e0e0e0",
     fontFamily: "Georgia, serif",
+  };
+
+  const contentStyle = {
     padding: "2rem",
+    maxWidth: "1200px",
+    margin: "0 auto",
   };
 
   const headerStyle = {
@@ -154,7 +159,7 @@ const ReadingList = () => {
 
   const gridStyle = {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
     gap: "1.5rem",
   };
 
@@ -162,8 +167,6 @@ const ReadingList = () => {
     backgroundColor: "#2c2c2c",
     borderRadius: "8px",
     padding: "1.5rem",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
     display: "flex",
     flexDirection: "column",
     height: "100%",
@@ -176,41 +179,15 @@ const ReadingList = () => {
     marginBottom: "0.5rem",
   };
 
-  const chipStyle = {
-    display: "inline-flex",
-    alignItems: "center",
-    backgroundColor: "#8f7e4f",
-    color: "#1a1a1a",
-    padding: "0.25rem 0.5rem",
-    borderRadius: "16px",
-    fontSize: "0.875rem",
-    marginBottom: "1rem",
-  };
-
-  const bookListStyle = {
-    listStyle: "none",
-    padding: 0,
-    margin: 0,
-  };
-
-  const bookItemStyle = {
+  const cardTextStyle = {
+    color: "#b0bec5",
     marginBottom: "0.5rem",
   };
 
-  const bookTitleStyle = {
-    color: "#e0e0e0",
-  };
-
-  const bookAuthorStyle = {
-    color: "#b0bec5",
-    fontSize: "0.875rem",
-  };
-
   const cardActionsStyle = {
+    marginTop: "auto",
     display: "flex",
     justifyContent: "flex-end",
-    marginTop: "auto",
-    paddingTop: "1rem",
   };
 
   const iconButtonStyle = {
@@ -218,11 +195,11 @@ const ReadingList = () => {
     border: "none",
     cursor: "pointer",
     padding: "0.5rem",
-    marginLeft: "0.5rem",
+    color: "#8f7e4f",
     transition: "color 0.3s ease",
   };
 
-  const dialogStyle = {
+  const modalStyle = {
     position: "fixed",
     top: "50%",
     left: "50%",
@@ -232,13 +209,8 @@ const ReadingList = () => {
     borderRadius: "8px",
     maxWidth: "500px",
     width: "100%",
-  };
-
-  const dialogTitleStyle = {
-    fontSize: "1.5rem",
-    fontWeight: "bold",
-    color: "#c19a6b",
-    marginBottom: "1rem",
+    maxHeight: "80vh",
+    overflowY: "auto",
   };
 
   const inputStyle = {
@@ -250,18 +222,6 @@ const ReadingList = () => {
     borderRadius: "4px",
     color: "#e0e0e0",
     fontSize: "1rem",
-  };
-
-  const selectStyle = {
-    ...inputStyle,
-    height: "auto",
-    minHeight: "100px",
-  };
-
-  const dialogActionsStyle = {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginTop: "1rem",
   };
 
   if (loading || isFetching) {
@@ -297,164 +257,220 @@ const ReadingList = () => {
   return (
     <div style={containerStyle}>
       <NavBar />
-      <div style={headerStyle}>
-        <h1 style={headingStyle}>My Reading Lists</h1>
-        <button onClick={() => setIsCreateDialogOpen(true)} style={buttonStyle}>
-          <Plus style={{ marginRight: "0.5rem" }} />
-          Create New List
-        </button>
-      </div>
-      <div style={gridStyle}>
-        {readingList.map((list) => (
-          <div key={list.id} style={cardStyle}>
-            <h2 style={cardTitleStyle}>{list.name}</h2>
-            <div style={chipStyle}>
-              <Book
-                style={{ marginRight: "0.5rem", width: "16px", height: "16px" }}
-              />
-              {list.books?.length || 0} books
-            </div>
-            <ul style={bookListStyle}>
-              {list.books?.slice(0, 3).map((book) => (
-                <li key={book.id} style={bookItemStyle}>
-                  <div style={bookTitleStyle}>{book.title}</div>
-                  <div style={bookAuthorStyle}>{book.author}</div>
-                </li>
-              ))}
-            </ul>
-            {list.books?.length > 3 && (
-              <p style={{ color: "#b0bec5", fontSize: "0.875rem" }}>
-                ...and {list.books.length - 3} more
-              </p>
-            )}
-            <div style={cardActionsStyle}>
-              <button
-                onClick={() => {
-                  setCurrentList(list);
-                  setNewListName(list.name);
-                  setSelectedBookIds(list.book_ids || []);
-                  setIsEditDialogOpen(true);
-                }}
-                style={{ ...iconButtonStyle, color: "#c19a6b" }}
-              >
-                <Edit />
-              </button>
-              <button
-                onClick={() => handleDeleteList(list.id)}
-                style={{ ...iconButtonStyle, color: "#d8b384" }}
-              >
-                <Delete />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {isCreateDialogOpen && (
-        <div style={dialogStyle}>
-          <h2 style={dialogTitleStyle}>Create New Reading List</h2>
-          <input
-            type="text"
-            value={newListName}
-            onChange={(e) => setNewListName(e.target.value)}
-            placeholder="List Name"
-            style={inputStyle}
-          />
-          <select
-            multiple
-            value={selectedBooks}
-            onChange={(e) =>
-              setSelectedBooks(
-                Array.from(e.target.selectedOptions, (option) => option.value)
-              )
-            }
-            style={selectStyle}
+      <div style={contentStyle}>
+        <div style={headerStyle}>
+          <h1 style={headingStyle}>My Reading Lists</h1>
+          <button
+            style={buttonStyle}
+            onClick={() => setIsCreateDialogOpen(true)}
           >
-            {availableBooks.map((book) => (
-              <option key={book.id} value={book.id}>
-                {book.title} - {book.author}
-              </option>
-            ))}
-          </select>
-          <div style={dialogActionsStyle}>
-            <button
-              onClick={() => setIsCreateDialogOpen(false)}
-              style={{
-                ...buttonStyle,
-                backgroundColor: "#2c2c2c",
-                color: "#e0e0e0",
-                marginRight: "1rem",
-              }}
-            >
-              Cancel
-            </button>
-            <button onClick={handleCreateList} style={buttonStyle}>
-              Create
-            </button>
-          </div>
+            <Plus size={18} style={{ marginRight: "0.5rem" }} />
+            Create New List
+          </button>
         </div>
-      )}
 
-      {isEditDialogOpen && (
-        <div style={dialogStyle}>
-          <h2 style={dialogTitleStyle}>Edit Reading List</h2>
-          <input
-            type="text"
-            value={newListName}
-            onChange={(e) => setNewListName(e.target.value)}
-            placeholder="List Name"
-            style={inputStyle}
-          />
-          <div style={{ marginBottom: "1rem" }}>
-            <h3 style={{ color: "#c19a6b", marginBottom: "0.5rem" }}>
-              Select Books:
-            </h3>
-            {availableBooks.map((book) => (
-              <div key={book.id} style={{ marginBottom: "0.5rem" }}>
-                <label
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    cursor: "pointer",
+        <div style={gridStyle}>
+          {readingList.map((list) => (
+            <div key={list.id} style={cardStyle}>
+              <h2 style={cardTitleStyle}>{list.name}</h2>
+              <p style={cardTextStyle}>
+                <Book
+                  size={16}
+                  style={{ marginRight: "0.5rem", verticalAlign: "middle" }}
+                />
+                {list.books?.length || 0} books
+              </p>
+              <ul
+                style={{ listStyle: "none", padding: 0, marginBottom: "1rem" }}
+              >
+                {list.books?.slice(0, 3).map((book) => (
+                  <li key={book.id} style={cardTextStyle}>
+                    {book.title}
+                  </li>
+                ))}
+              </ul>
+              {list.books?.length > 3 && (
+                <p style={cardTextStyle}>...and {list.books.length - 3} more</p>
+              )}
+              <div style={cardActionsStyle}>
+                <button
+                  style={iconButtonStyle}
+                  onClick={() => {
+                    setCurrentList(list);
+                    setNewListName(list.name);
+                    setSelectedBookIds(list.book_ids || []);
+                    setIsEditDialogOpen(true);
                   }}
                 >
-                  <input
-                    type="checkbox"
-                    checked={selectedBookIds.includes(book.id)}
-                    onChange={() => toggleBookSelection(book.id)}
-                    style={{ marginRight: "0.5rem" }}
-                  />
-                  <span
-                    style={{
-                      color: selectedBookIds.includes(book.id)
-                        ? "#c19a6b"
-                        : "#e0e0e0",
-                    }}
-                  >
-                    {book.title} by {book.author}
-                  </span>
-                </label>
+                  <Edit size={18} />
+                </button>
+                <button
+                  style={{ ...iconButtonStyle, color: "#d8b384" }}
+                  onClick={() => handleDeleteList(list.id)}
+                >
+                  <Trash2 size={18} />
+                </button>
               </div>
-            ))}
-          </div>
-          <div style={dialogActionsStyle}>
-            <button
-              onClick={() => setIsEditDialogOpen(false)}
+            </div>
+          ))}
+        </div>
+
+        {isCreateDialogOpen && (
+          <div style={modalStyle}>
+            <h2
               style={{
-                ...buttonStyle,
-                backgroundColor: "#2c2c2c",
-                color: "#e0e0e0",
-                marginRight: "1rem",
+                ...headingStyle,
+                fontSize: "1.5rem",
+                marginBottom: "1rem",
               }}
             >
-              Cancel
-            </button>
-            <button onClick={handleUpdateList} style={buttonStyle}>
-              Update
-            </button>
+              Create New Reading List
+            </h2>
+            <input
+              type="text"
+              value={newListName}
+              onChange={(e) => setNewListName(e.target.value)}
+              placeholder="List Name"
+              style={inputStyle}
+            />
+            <h3 style={{ ...cardTitleStyle, marginTop: "1rem" }}>
+              Select Books:
+            </h3>
+            <div
+              style={{
+                maxHeight: "200px",
+                overflowY: "auto",
+                marginBottom: "1rem",
+              }}
+            >
+              {availableBooks.map((book) => (
+                <div key={book.id} style={{ marginBottom: "0.5rem" }}>
+                  <label
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedBooks.includes(book.id)}
+                      onChange={() => {
+                        if (selectedBooks.includes(book.id)) {
+                          setSelectedBooks(
+                            selectedBooks.filter((id) => id !== book.id)
+                          );
+                        } else {
+                          setSelectedBooks([...selectedBooks, book.id]);
+                        }
+                      }}
+                      style={{ marginRight: "0.5rem" }}
+                    />
+                    <span style={cardTextStyle}>
+                      {book.title} - {book.author}
+                    </span>
+                  </label>
+                </div>
+              ))}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "1rem",
+              }}
+            >
+              <button
+                style={{
+                  ...buttonStyle,
+                  backgroundColor: "#2c2c2c",
+                  color: "#e0e0e0",
+                }}
+                onClick={() => setIsCreateDialogOpen(false)}
+              >
+                Cancel
+              </button>
+              <button style={buttonStyle} onClick={handleCreateList}>
+                Create
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {isEditDialogOpen && (
+          <div style={modalStyle}>
+            <h2
+              style={{
+                ...headingStyle,
+                fontSize: "1.5rem",
+                marginBottom: "1rem",
+              }}
+            >
+              Edit Reading List
+            </h2>
+            <input
+              type="text"
+              value={newListName}
+              onChange={(e) => setNewListName(e.target.value)}
+              placeholder="List Name"
+              style={inputStyle}
+            />
+            <h3 style={{ ...cardTitleStyle, marginTop: "1rem" }}>
+              Select Books:
+            </h3>
+            <div
+              style={{
+                maxHeight: "200px",
+                overflowY: "auto",
+                marginBottom: "1rem",
+              }}
+            >
+              {availableBooks.map((book) => (
+                <div key={book.id} style={{ marginBottom: "0.5rem" }}>
+                  <label
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedBookIds.includes(book.id)}
+                      onChange={() => toggleBookSelection(book.id)}
+                      style={{ marginRight: "0.5rem" }}
+                    />
+                    <span style={cardTextStyle}>
+                      {book.title} - {book.author}
+                    </span>
+                  </label>
+                </div>
+              ))}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "1rem",
+              }}
+            >
+              <button
+                style={{
+                  ...buttonStyle,
+                  backgroundColor: "#2c2c2c",
+                  color: "#e0e0e0",
+                }}
+                onClick={() => setIsEditDialogOpen(false)}
+              >
+                Cancel
+              </button>
+              <button style={buttonStyle} onClick={handleUpdateList}>
+                Update
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
