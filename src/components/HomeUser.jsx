@@ -1,15 +1,9 @@
+import { useEffect, useState } from "react";
 import { useUser } from "../context/UserContext.js";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  Grid,
-} from "@mui/material";
 import NavBar from "./NavBar.jsx";
+import { Plus, Search } from "lucide-react";
+
 const HomeUser = () => {
   const { user, isAuthenticated, loading } = useUser();
   const navigate = useNavigate();
@@ -21,7 +15,7 @@ const HomeUser = () => {
     if (!loading && !isAuthenticated) {
       navigate("/login");
     } else {
-      fetch("http:///127.0.0.1:5000/books", {
+      fetch("http://127.0.0.1:5000/books", {
         credentials: "include",
       })
         .then((response) => response.json())
@@ -36,78 +30,215 @@ const HomeUser = () => {
         });
     }
   }, [isAuthenticated, loading, navigate]);
-  if (loading || isFetching) {
-    return <p>Loading...</p>;
-  }
-  if (!isAuthenticated) return null;
 
   const filteredBooks = books.filter((book) =>
     book.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
-  return (
-    <div className="p-6 bg-gray-400 min-h-screen">
-      <NavBar />
-      <h1 className="text-3xl font-bold mb-6">Home</h1>
 
-      <div className="mb-8">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="w-full p-2 border rounded"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
+  const containerStyle = {
+    backgroundColor: "#1a1a1a",
+    minHeight: "100vh",
+    color: "#e0e0e0",
+    fontFamily: "Georgia, serif",
+  };
+
+  const contentStyle = {
+    padding: "2rem",
+  };
+
+  const headingStyle = {
+    fontSize: "2.5rem",
+    fontWeight: "bold",
+    color: "#c19a6b",
+    marginBottom: "2rem",
+  };
+
+  const searchContainerStyle = {
+    marginBottom: "2rem",
+    position: "relative",
+  };
+
+  const searchInputStyle = {
+    width: "100%",
+    padding: "0.75rem",
+    paddingLeft: "2.5rem",
+    backgroundColor: "#2c2c2c",
+    border: "1px solid #8f7e4f",
+    borderRadius: "4px",
+    color: "#e0e0e0",
+    fontSize: "1rem",
+  };
+
+  const searchIconStyle = {
+    position: "absolute",
+    left: "0.75rem",
+    top: "50%",
+    transform: "translateY(-50%)",
+    color: "#8f7e4f",
+  };
+
+  const addButtonStyle = {
+    backgroundColor: "#8f7e4f",
+    color: "#1a1a1a",
+    border: "none",
+    padding: "0.5rem 1rem",
+    fontSize: "1rem",
+    fontFamily: "Georgia, serif",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    transition: "background-color 0.3s ease",
+    marginBottom: "2rem",
+  };
+
+  const gridStyle = {
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+    gap: "1.5rem",
+  };
+
+  const cardStyle = {
+    backgroundColor: "#2c2c2c",
+    borderRadius: "8px",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+  };
+
+  const cardImageStyle = {
+    width: "100%",
+    height: "200px",
+    objectFit: "cover",
+  };
+
+  const cardContentStyle = {
+    padding: "1rem",
+    flexGrow: 1,
+  };
+
+  const cardTitleStyle = {
+    fontSize: "1.2rem",
+    fontWeight: "bold",
+    color: "#c19a6b",
+    marginBottom: "0.5rem",
+  };
+
+  const cardTextStyle = {
+    color: "#b0bec5",
+    marginBottom: "0.5rem",
+  };
+
+  const viewButtonStyle = {
+    backgroundColor: "#8f7e4f",
+    color: "#1a1a1a",
+    border: "none",
+    padding: "0.5rem",
+    width: "100%",
+    fontSize: "1rem",
+    fontFamily: "Georgia, serif",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+  };
+
+  const loadMoreStyle = {
+    backgroundColor: "transparent",
+    border: "1px solid #8f7e4f",
+    color: "#8f7e4f",
+    padding: "0.5rem 1rem",
+    fontSize: "1rem",
+    fontFamily: "Georgia, serif",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease, color 0.3s ease",
+    marginTop: "2rem",
+  };
+
+  if (loading || isFetching) {
+    return (
+      <div
+        style={{
+          ...containerStyle,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            width: "48px",
+            height: "48px",
+            border: "4px solid #2c2c2c",
+            borderTop: "4px solid #c19a6b",
+            borderRadius: "50%",
+            animation: "spin 1s linear infinite",
+          }}
+        ></div>
+        <style>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
-      <div className="mb-6 text-right">
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => navigate("/addbook")}
-        >
+    );
+  }
+
+  if (!isAuthenticated) return null;
+
+  return (
+    <div style={containerStyle}>
+      <NavBar />
+      <div style={contentStyle}>
+        <h1 style={headingStyle}>Home</h1>
+
+        <div style={searchContainerStyle}>
+          <input
+            type="text"
+            placeholder="Search..."
+            style={searchInputStyle}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <Search style={searchIconStyle} size={20} />
+        </div>
+
+        <button style={addButtonStyle} onClick={() => navigate("/addbook")}>
+          <Plus style={{ marginRight: "0.5rem" }} />
           Add New Book
-        </Button>
-      </div>
-      <Grid container spacing={4}>
-        {filteredBooks.map((book) => (
-          <Grid item key={book.id} xs={12} sm={6} md={4} lg={3}>
-            <Card className="h-full flex flex-col">
-              <CardMedia
-                component="img"
-                height="200"
-                image={book.image_url}
+        </button>
+
+        <div style={gridStyle}>
+          {filteredBooks.map((book) => (
+            <div key={book.id} style={cardStyle}>
+              <img
+                src={book.image_url || "/placeholder.svg"}
                 alt={book.title}
+                style={cardImageStyle}
               />
-              <CardContent className="flex-grow">
-                <Typography gutterBottom variant="h5" component="div">
-                  {book.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
+              <div style={cardContentStyle}>
+                <h2 style={cardTitleStyle}>{book.title}</h2>
+                <p style={cardTextStyle}>
                   {book.author} ({book.publication_year})
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {book.genre}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {book.pages_count} pages
-                </Typography>
-              </CardContent>
-              <Button
-                variant="contained"
-                color="primary"
+                </p>
+                <p style={cardTextStyle}>{book.genre}</p>
+                <p style={cardTextStyle}>{book.pages_count} pages</p>
+              </div>
+              <button
+                style={viewButtonStyle}
                 onClick={() => navigate(`/books/${book.id}`)}
               >
                 View Details
-              </Button>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-      <div className="mt-8 text-center">
-        <Button variant="outlined" color="primary">
-          Load More
-        </Button>
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ textAlign: "center" }}>
+          <button style={loadMoreStyle}>Load More</button>
+        </div>
       </div>
     </div>
   );
 };
+
 export default HomeUser;
