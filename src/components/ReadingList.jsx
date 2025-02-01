@@ -74,7 +74,7 @@ const ReadingList = () => {
 
   const handleUpdateList = () => {
     fetch(`http://127.0.0.1:5000/reading-lists/${currentList.id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
