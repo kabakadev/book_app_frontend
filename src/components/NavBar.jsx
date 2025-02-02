@@ -28,7 +28,7 @@ const NavBar = () => {
     <nav className="nav">
       <div className="container">
         <NavLink to="/home" className="logo">
-          BookWorm
+          BookNook
         </NavLink>
         <button
           className="menuButton"
