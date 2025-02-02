@@ -10,12 +10,13 @@ const HomeUser = () => {
   const [books, setBooks] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       navigate("/login");
     } else {
-      fetch("http://127.0.0.1:5000/books", {
+      fetch(`${API_URL}/books`, {
         credentials: "include",
       })
         .then((response) => response.json())

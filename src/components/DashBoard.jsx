@@ -9,12 +9,13 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       navigate("/login");
     } else if (user && user.id) {
-      fetch(`http://127.0.0.1:5000/users/${user.id}`, {
+      fetch(`${API_URL}/users/${user.id}`, {
         credentials: "include",
       })
         .then((response) => response.json())

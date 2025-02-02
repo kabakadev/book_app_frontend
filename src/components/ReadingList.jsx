@@ -16,6 +16,7 @@ const ReadingList = () => {
   const [availableBooks, setAvailableBooks] = useState([]);
   const [selectedBookIds, setSelectedBookIds] = useState([]);
   const [selectedBooks, setSelectedBooks] = useState([]);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -26,14 +27,14 @@ const ReadingList = () => {
   }, [isAuthenticated, loading, navigate, user]);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/books`, { credentials: "include" })
+    fetch(`${API_URL}/books`, { credentials: "include" })
       .then((response) => response.json())
       .then((data) => setAvailableBooks(data))
       .catch((error) => console.error("Error fetching books:", error));
   }, []);
 
   const fetchReadingLists = () => {
-    fetch(`http://127.0.0.1:5000/reading-lists?user_id=${user.id}`, {
+    fetch(`${API_URL}/reading-lists?user_id=${user.id}`, {
       credentials: "include",
     })
       .then((response) => response.json())
@@ -48,7 +49,7 @@ const ReadingList = () => {
   };
 
   const handleCreateList = () => {
-    fetch(`http://127.0.0.1:5000/reading-lists?user_id=${user.id}`, {
+    fetch(`${API_URL}/reading-lists?user_id=${user.id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +74,7 @@ const ReadingList = () => {
   };
 
   const handleUpdateList = () => {
-    fetch(`http://127.0.0.1:5000/reading-lists/${currentList.id}`, {
+    fetch(`${API_URL}/reading-lists/${currentList.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -98,7 +99,7 @@ const ReadingList = () => {
   };
 
   const handleDeleteList = (id) => {
-    fetch(`http://127.0.0.1:5000/reading-lists/${id}`, {
+    fetch(`${API_URL}/reading-lists/${id}`, {
       method: "DELETE",
       credentials: "include",
     })

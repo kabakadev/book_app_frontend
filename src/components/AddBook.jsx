@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 const AddBook = () => {
   const { isAuthenticated, loading, logout } = useUser();
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
@@ -42,7 +43,7 @@ const AddBook = () => {
 
   const onSubmit = async (values, { setSubmitting, resetForm }) => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/books", {
+      const response = await fetch(`${API_URL}/books`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

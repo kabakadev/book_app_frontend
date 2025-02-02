@@ -15,12 +15,13 @@ const BookDetail = () => {
   const [editingReviewId, setEditingReviewId] = useState(null);
   const [editedText, setEditedText] = useState("");
   const [editedRating, setEditedRating] = useState(0);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       navigate("/login");
     } else if (isAuthenticated) {
-      fetch(`http://127.0.0.1:5000/books/${id}`, {
+      fetch(`${API_URL}/books/${id}`, {
         credentials: "include",
       })
         .then((response) => response.json())
@@ -49,7 +50,7 @@ const BookDetail = () => {
       rating: rating,
     };
 
-    fetch(`http://127.0.0.1:5000/reviews`, {
+    fetch(`${API_URL}/reviews`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -75,7 +76,7 @@ const BookDetail = () => {
   };
 
   const handleEditReview = (reviewId) => {
-    fetch(`http://127.0.0.1:5000/reviews/${reviewId}`, {
+    fetch(`${API_URL}/reviews/${reviewId}`, {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -99,7 +100,7 @@ const BookDetail = () => {
   };
 
   const handleDeleteReview = (reviewId) => {
-    fetch(`http://127.0.0.1:5000/reviews/${reviewId}`, {
+    fetch(`${API_URL}/reviews/${reviewId}`, {
       method: "DELETE",
       credentials: "include",
     })

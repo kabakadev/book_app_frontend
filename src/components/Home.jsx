@@ -95,13 +95,14 @@ const Home = () => {
   const [darkMode, setDarkMode] = useState(false);
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const navigate = useNavigate();
+  const API_URL = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     setDarkMode(prefersDarkMode);
   }, [prefersDarkMode]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/reviews")
+    fetch(`${API_URL}/reviews`)
       .then((response) => response.json())
       .then((data) => setReviews(data))
       .catch((error) => console.error("Error fetching reviews:", error));
