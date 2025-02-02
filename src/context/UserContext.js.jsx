@@ -6,7 +6,9 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true); // Track loading state
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://book-app-backend-mp22.onrender.com";
 
   // Check if the user is authenticated on page load
   useEffect(() => {

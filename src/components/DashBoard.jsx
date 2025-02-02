@@ -9,7 +9,9 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [isFetching, setIsFetching] = useState(true);
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://book-app-backend-mp22.onrender.com";
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {

@@ -10,7 +10,9 @@ const HomeUser = () => {
   const [books, setBooks] = useState([]);
   const [isFetching, setIsFetching] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://book-app-backend-mp22.onrender.com";
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {

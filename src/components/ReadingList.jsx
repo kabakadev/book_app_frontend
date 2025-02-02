@@ -16,7 +16,9 @@ const ReadingList = () => {
   const [availableBooks, setAvailableBooks] = useState([]);
   const [selectedBookIds, setSelectedBookIds] = useState([]);
   const [selectedBooks, setSelectedBooks] = useState([]);
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://book-app-backend-mp22.onrender.com";
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {

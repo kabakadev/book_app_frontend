@@ -9,7 +9,9 @@ import "react-toastify/dist/ReactToastify.css";
 const AddBook = () => {
   const { isAuthenticated, loading, logout } = useUser();
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://book-app-backend-mp22.onrender.com";
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {

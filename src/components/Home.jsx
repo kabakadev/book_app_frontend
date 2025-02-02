@@ -95,7 +95,9 @@ const Home = () => {
   const [darkMode, setDarkMode] = useState(false);
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const navigate = useNavigate();
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL =
+    import.meta.env.VITE_API_URL ||
+    "https://book-app-backend-mp22.onrender.com";
 
   useEffect(() => {
     setDarkMode(prefersDarkMode);
