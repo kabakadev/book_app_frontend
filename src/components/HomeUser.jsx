@@ -38,144 +38,10 @@ const HomeUser = () => {
     book.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const containerStyle = {
-    backgroundColor: "#1a1a1a",
-    minHeight: "100vh",
-    color: "#e0e0e0",
-    fontFamily: "Georgia, serif",
-  };
-
-  const contentStyle = {
-    padding: "2rem",
-  };
-
-  const headingStyle = {
-    fontSize: "2.5rem",
-    fontWeight: "bold",
-    color: "#c19a6b",
-    marginBottom: "2rem",
-  };
-
-  const searchContainerStyle = {
-    marginBottom: "2rem",
-    position: "relative",
-  };
-
-  const searchInputStyle = {
-    width: "100%",
-    padding: "0.75rem",
-    paddingLeft: "2.5rem",
-    backgroundColor: "#2c2c2c",
-    border: "1px solid #8f7e4f",
-    borderRadius: "4px",
-    color: "#e0e0e0",
-    fontSize: "1rem",
-  };
-
-  const searchIconStyle = {
-    position: "absolute",
-    left: "0.75rem",
-    top: "50%",
-    transform: "translateY(-50%)",
-    color: "#8f7e4f",
-  };
-
-  const addButtonStyle = {
-    backgroundColor: "#8f7e4f",
-    color: "#1a1a1a",
-    border: "none",
-    padding: "0.5rem 1rem",
-    fontSize: "1rem",
-    fontFamily: "Georgia, serif",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    transition: "background-color 0.3s ease",
-    marginBottom: "2rem",
-  };
-
-  const gridStyle = {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-    gap: "1.5rem",
-  };
-
-  const cardStyle = {
-    backgroundColor: "#2c2c2c",
-    borderRadius: "8px",
-    overflow: "hidden",
-    display: "flex",
-    flexDirection: "column",
-    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-  };
-
-  const cardImageStyle = {
-    width: "100%",
-    height: "200px",
-    objectFit: "cover",
-  };
-
-  const cardContentStyle = {
-    padding: "1rem",
-    flexGrow: 1,
-  };
-
-  const cardTitleStyle = {
-    fontSize: "1.2rem",
-    fontWeight: "bold",
-    color: "#c19a6b",
-    marginBottom: "0.5rem",
-  };
-
-  const cardTextStyle = {
-    color: "#b0bec5",
-    marginBottom: "0.5rem",
-  };
-
-  const viewButtonStyle = {
-    backgroundColor: "#8f7e4f",
-    color: "#1a1a1a",
-    border: "none",
-    padding: "0.5rem",
-    width: "100%",
-    fontSize: "1rem",
-    fontFamily: "Georgia, serif",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease",
-  };
-
-  const loadMoreStyle = {
-    backgroundColor: "transparent",
-    border: "1px solid #8f7e4f",
-    color: "#8f7e4f",
-    padding: "0.5rem 1rem",
-    fontSize: "1rem",
-    fontFamily: "Georgia, serif",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease, color 0.3s ease",
-    marginTop: "2rem",
-  };
-
   if (loading || isFetching) {
     return (
-      <div
-        style={{
-          ...containerStyle,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "48px",
-            height: "48px",
-            border: "4px solid #2c2c2c",
-            borderTop: "4px solid #c19a6b",
-            borderRadius: "50%",
-            animation: "spin 1s linear infinite",
-          }}
-        ></div>
+      <div className="flex items-center justify-center min-h-screen bg-[#1a1a1a]">
+        <div className="w-12 h-12 border-4 border-[#2c2c2c] border-t-[#c19a6b] rounded-full animate-spin"></div>
         <style>{`
           @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -189,45 +55,56 @@ const HomeUser = () => {
   if (!isAuthenticated) return null;
 
   return (
-    <div style={containerStyle}>
+    <div className="bg-[#1a1a1a] min-h-screen text-[#e0e0e0] font-['Georgia',serif]">
       <NavBar />
-      <div style={contentStyle}>
-        <h1 style={headingStyle}>Home</h1>
+      <div className="p-8">
+        <h1 className="text-[2.5rem] font-bold text-[#c19a6b] mb-8">Home</h1>
 
-        <div style={searchContainerStyle}>
+        <div className="mb-8 relative">
           <input
             type="text"
             placeholder="Search..."
-            style={searchInputStyle}
+            className="w-full py-3 pl-10 pr-4 bg-[#2c2c2c] border border-[#8f7e4f] rounded text-[#e0e0e0] text-base"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <Search style={searchIconStyle} size={20} />
+          <Search
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#8f7e4f]"
+            size={20}
+          />
         </div>
 
-        <button style={addButtonStyle} onClick={() => navigate("/addbook")}>
-          <Plus style={{ marginRight: "0.5rem" }} />
+        <button
+          className="bg-[#8f7e4f] text-[#1a1a1a] border-none py-2 px-4 text-base font-['Georgia',serif] cursor-pointer flex items-center mb-8"
+          onClick={() => navigate("/addbook")}
+        >
+          <Plus className="mr-2" />
           Add New Book
         </button>
 
-        <div style={gridStyle}>
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-6">
           {filteredBooks.map((book) => (
-            <div key={book.id} style={cardStyle}>
+            <div
+              key={book.id}
+              className="bg-[#2c2c2c] rounded-lg overflow-hidden flex flex-col"
+            >
               <img
                 src={book.image_url || "/placeholder.svg"}
                 alt={book.title}
-                style={cardImageStyle}
+                className="w-full h-[200px] object-cover"
               />
-              <div style={cardContentStyle}>
-                <h2 style={cardTitleStyle}>{book.title}</h2>
-                <p style={cardTextStyle}>
+              <div className="p-4 flex-grow">
+                <h2 className="text-[1.2rem] font-bold text-[#c19a6b] mb-2">
+                  {book.title}
+                </h2>
+                <p className="text-[#b0bec5] mb-2">
                   {book.author} ({book.publication_year})
                 </p>
-                <p style={cardTextStyle}>{book.genre}</p>
-                <p style={cardTextStyle}>{book.pages_count} pages</p>
+                <p className="text-[#b0bec5] mb-2">{book.genre}</p>
+                <p className="text-[#b0bec5]">{book.pages_count} pages</p>
               </div>
               <button
-                style={viewButtonStyle}
+                className="bg-[#8f7e4f] text-[#1a1a1a] border-none py-2 w-full text-base font-['Georgia',serif] cursor-pointer"
                 onClick={() => navigate(`/books/${book.id}`)}
               >
                 View Details
@@ -236,8 +113,10 @@ const HomeUser = () => {
           ))}
         </div>
 
-        <div style={{ textAlign: "center" }}>
-          <button style={loadMoreStyle}>Load More</button>
+        <div className="text-center mt-8">
+          <button className="bg-transparent border border-[#8f7e4f] text-[#8f7e4f] py-2 px-4 text-base font-['Georgia',serif] cursor-pointer">
+            Load More
+          </button>
         </div>
       </div>
     </div>
