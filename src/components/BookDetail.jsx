@@ -132,120 +132,16 @@ const BookDetail = () => {
       });
   };
 
-  const containerStyle = {
-    backgroundColor: "#1a1a1a",
-    minHeight: "100vh",
-    color: "#e0e0e0",
-    fontFamily: "Georgia, serif",
-  };
-
-  const contentStyle = {
-    padding: "2rem",
-    maxWidth: "1200px",
-    margin: "0 auto",
-  };
-
-  const bookDetailsStyle = {
-    display: "flex",
-    flexDirection: "row",
-    gap: "2rem",
-    marginBottom: "2rem",
-  };
-
-  const bookImageStyle = {
-    maxWidth: "300px",
-    height: "auto",
-    borderRadius: "8px",
-    boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-  };
-
-  const bookInfoStyle = {
-    flex: 1,
-  };
-
-  const headingStyle = {
-    fontSize: "2.5rem",
-    fontWeight: "bold",
-    color: "#c19a6b",
-    marginBottom: "0.5rem",
-  };
-
-  const subheadingStyle = {
-    fontSize: "1.5rem",
-    color: "#d8b384",
-    marginBottom: "0.5rem",
-  };
-
-  const textStyle = {
-    fontSize: "1rem",
-    color: "#b0bec5",
-    marginBottom: "0.5rem",
-  };
-
-  const reviewSectionStyle = {
-    marginTop: "2rem",
-  };
-
-  const reviewHeadingStyle = {
-    fontSize: "2rem",
-    fontWeight: "bold",
-    color: "#c19a6b",
-    marginBottom: "1rem",
-  };
-
-  const reviewCardStyle = {
-    backgroundColor: "#2c2c2c",
-    borderRadius: "8px",
-    padding: "1rem",
-    marginBottom: "1rem",
-  };
-
-  const buttonStyle = {
-    backgroundColor: "#8f7e4f",
-    color: "#1a1a1a",
-    border: "none",
-    padding: "0.5rem 1rem",
-    fontSize: "1rem",
-    fontFamily: "Georgia, serif",
-    cursor: "pointer",
-    marginRight: "0.5rem",
-    transition: "background-color 0.3s ease",
-  };
-
-  const inputStyle = {
-    width: "100%",
-    padding: "0.5rem",
-    marginBottom: "1rem",
-    backgroundColor: "#2c2c2c",
-    border: "1px solid #8f7e4f",
-    borderRadius: "4px",
-    color: "#e0e0e0",
-    fontSize: "1rem",
-  };
-
-  const starContainerStyle = {
-    display: "flex",
-    alignItems: "center",
-    marginBottom: "0.5rem",
-  };
-
-  const starStyle = {
-    color: "#d8b384",
-    marginRight: "0.25rem",
-    cursor: "pointer",
-  };
-
   const renderStars = (value, onChange) => {
     return (
-      <div style={starContainerStyle}>
+      <div className="flex items-center mb-2">
         {[1, 2, 3, 4, 5].map((star) => (
           <Star
             key={star}
             size={20}
-            style={{
-              ...starStyle,
-              fill: star <= value ? "#d8b384" : "none",
-            }}
+            className={`text-accent mr-1 cursor-pointer ${
+              star <= value ? "fill-accent" : ""
+            }`}
             onClick={() => onChange && onChange(star)}
           />
         ))}
@@ -255,24 +151,8 @@ const BookDetail = () => {
 
   if (!book) {
     return (
-      <div
-        style={{
-          ...containerStyle,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          style={{
-            width: "48px",
-            height: "48px",
-            border: "4px solid #2c2c2c",
-            borderTop: "4px solid #c19a6b",
-            borderRadius: "50%",
-            animation: "spin 1s linear infinite",
-          }}
-        ></div>
+      <div className="flex items-center justify-center min-h-screen bg-background">
+        <div className="w-12 h-12 border-4 border-card border-t-primary rounded-full animate-spin"></div>
         <style>{`
           @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -284,49 +164,47 @@ const BookDetail = () => {
   }
 
   return (
-    <div style={containerStyle}>
+    <div className="bg-background min-h-screen text-text-primary font-serif">
       <NavBar />
-      <div style={contentStyle}>
-        <div style={bookDetailsStyle}>
+      <div className="p-8 max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row gap-8 mb-8">
           <img
             src={book.image_url || "/placeholder.svg"}
             alt={book.title}
-            style={bookImageStyle}
+            className="max-w-[300px] h-auto rounded-lg shadow-md"
           />
-          <div style={bookInfoStyle}>
-            <h1 style={headingStyle}>{book.title}</h1>
-            <h2 style={subheadingStyle}>{book.author}</h2>
-            <p style={textStyle}>{book.genre}</p>
-            <p style={textStyle}>{book.publication_year}</p>
-            <p style={textStyle}>{book.page_count} pages</p>
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-primary mb-2">
+              {book.title}
+            </h1>
+            <h2 className="text-2xl text-accent mb-2">{book.author}</h2>
+            <p className="text-text-secondary mb-2">{book.genre}</p>
+            <p className="text-text-secondary mb-2">{book.publication_year}</p>
+            <p className="text-text-secondary">{book.page_count} pages</p>
           </div>
         </div>
 
-        <div style={reviewSectionStyle}>
-          <h2 style={reviewHeadingStyle}>Reviews</h2>
+        <div className="mt-8">
+          <h2 className="text-3xl font-bold text-primary mb-4">Reviews</h2>
           {reviews.map((review) => (
-            <div key={review.id} style={reviewCardStyle}>
+            <div key={review.id} className="bg-card rounded-lg p-4 mb-4">
               {editingReviewId === review.id ? (
                 <div>
                   <textarea
                     value={editedText}
                     onChange={(e) => setEditedText(e.target.value)}
-                    style={inputStyle}
+                    className="w-full p-2 mb-4 bg-background border border-secondary rounded text-text-primary text-base"
                   />
                   {renderStars(editedRating, setEditedRating)}
                   <div>
                     <button
-                      style={buttonStyle}
+                      className="bg-secondary text-background border-none py-2 px-4 text-base font-serif cursor-pointer mr-2 transition-colors duration-300"
                       onClick={() => handleEditReview(review.id)}
                     >
                       Save
                     </button>
                     <button
-                      style={{
-                        ...buttonStyle,
-                        backgroundColor: "#2c2c2c",
-                        color: "#e0e0e0",
-                      }}
+                      className="bg-card text-text-primary border-none py-2 px-4 text-base font-serif cursor-pointer transition-colors duration-300"
                       onClick={() => setEditingReviewId(null)}
                     >
                       Cancel
@@ -335,22 +213,24 @@ const BookDetail = () => {
                 </div>
               ) : (
                 <div>
-                  <p style={textStyle}>{review.review_text}</p>
+                  <p className="text-text-secondary mb-2">
+                    {review.review_text}
+                  </p>
                   {renderStars(review.rating)}
                   {review.user_id === user.id && (
-                    <div>
+                    <div className="flex space-x-2 mt-2">
                       <button
-                        style={buttonStyle}
+                        className="bg-secondary text-background border-none py-2 px-4 text-base font-serif cursor-pointer transition-colors duration-300 flex items-center"
                         onClick={() => handleEditClick(review)}
                       >
-                        <Edit size={16} style={{ marginRight: "0.25rem" }} />
+                        <Edit size={16} className="mr-1" />
                         Edit
                       </button>
                       <button
-                        style={{ ...buttonStyle, backgroundColor: "#d8b384" }}
+                        className="bg-accent text-background border-none py-2 px-4 text-base font-serif cursor-pointer transition-colors duration-300 flex items-center"
                         onClick={() => handleDeleteReview(review.id)}
                       >
-                        <Trash2 size={16} style={{ marginRight: "0.25rem" }} />
+                        <Trash2 size={16} className="mr-1" />
                         Delete
                       </button>
                     </div>
@@ -361,18 +241,17 @@ const BookDetail = () => {
           ))}
         </div>
 
-        <div style={{ marginTop: "2rem" }}>
+        <div className="mt-8">
           <textarea
             placeholder="Add a Review"
             value={reviewText}
             onChange={(e) => setReviewText(e.target.value)}
-            style={inputStyle}
+            className="w-full p-2 mb-4 bg-background border border-secondary rounded text-text-primary text-base"
           />
           {renderStars(rating, setRating)}
           <button
-            style={buttonStyle}
+            className="bg-secondary text-background border-none py-2 px-4 text-base font-serif cursor-pointer transition-colors duration-300"
             onClick={handleAddReview}
-            // disabled={reviews.some((review) => review.user_id === user.id)}
           >
             Submit Review
           </button>
