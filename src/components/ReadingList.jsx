@@ -3,6 +3,8 @@ import { useUser } from "../context/UserContext.js";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar.jsx";
 import { Book, Plus, Edit, Trash2 } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ReadingList = () => {
   const { user, isAuthenticated, loading } = useUser();
@@ -51,6 +53,14 @@ const ReadingList = () => {
   };
 
   const handleCreateList = () => {
+    if (!newListName.trim()) {
+      toast.error("List name cannot be empty.");
+      return;
+    }
+    if (selectedBooks.length === 0) {
+      toast.error("You must select at least one book.");
+      return;
+    }
     fetch(`${API_URL}/reading-lists?user_id=${user.id}`, {
       method: "POST",
       headers: {

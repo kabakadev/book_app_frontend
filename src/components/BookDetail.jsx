@@ -3,6 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext.js";
 import NavBar from "./NavBar";
 import { Star, Edit, Trash2 } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BookDetail = () => {
   const { id } = useParams();
@@ -41,7 +43,7 @@ const BookDetail = () => {
     const existingReview = reviews.find((review) => review.user_id === user.id);
 
     if (existingReview) {
-      alert("User has already reviewed this book");
+      toast.error("You have already reviewed this book.");
       return;
     }
 
@@ -78,6 +80,10 @@ const BookDetail = () => {
   };
 
   const handleEditReview = (reviewId) => {
+    if (!editedText.trim() || editedRating === 0) {
+      toast.error("Both text and rating must be provided.");
+      return;
+    }
     fetch(`${API_URL}/reviews/${reviewId}`, {
       method: "PUT",
       credentials: "include",
@@ -354,7 +360,7 @@ const BookDetail = () => {
           <button
             style={buttonStyle}
             onClick={handleAddReview}
-            disabled={reviews.some((review) => review.user_id === user.id)}
+            // disabled={reviews.some((review) => review.user_id === user.id)}
           >
             Submit Review
           </button>
