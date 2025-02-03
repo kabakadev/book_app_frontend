@@ -46,6 +46,15 @@ const BookDetail = () => {
       toast.error("You have already reviewed this book.");
       return;
     }
+    if (!reviewText.trim()) {
+      toast.error("Review text cannot be empty.");
+      return;
+    }
+
+    if (rating === 0 || rating === null) {
+      toast.error("Please provide a rating.");
+      return;
+    }
 
     const payload = {
       user_id: user.id,
@@ -67,9 +76,11 @@ const BookDetail = () => {
         setReviews([...reviews, data]);
         setReviewText("");
         setRating(0);
+        toast.success("Review added successfully!");
       })
       .catch((error) => {
         console.error("Error adding review:", error);
+        toast.error("Failed to add review. Please try again.");
       });
   };
 
@@ -114,6 +125,7 @@ const BookDetail = () => {
     })
       .then(() => {
         setReviews(reviews.filter((review) => review.id !== reviewId));
+        toast.success("Review deleted!");
       })
       .catch((error) => {
         console.error("Error deleting review:", error);

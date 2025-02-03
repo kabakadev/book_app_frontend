@@ -79,6 +79,7 @@ const ReadingList = () => {
         setIsCreateDialogOpen(false);
         setNewListName("");
         setSelectedBooks([]);
+        toast.success("List created!");
       })
       .catch((error) => {
         console.error("Error creating reading list:", error);
@@ -113,6 +114,7 @@ const ReadingList = () => {
         );
         setIsEditDialogOpen(false);
         setNewListName("");
+        toast.success("List updated successfully!");
       })
       .catch((error) => {
         console.error("Error updating reading list:", error);
@@ -126,6 +128,7 @@ const ReadingList = () => {
     })
       .then(() => {
         setReadingLists(readingList.filter((list) => list.id !== id));
+        toast.success("List deleted!");
       })
       .catch((error) => {
         console.error("Error deleting reading list:", error);
