@@ -86,6 +86,15 @@ const ReadingList = () => {
   };
 
   const handleUpdateList = () => {
+    if (!newListName.trim()) {
+      toast.error("Reading list name cannot be empty.");
+      return;
+    }
+
+    if (selectedBookIds.length === 0) {
+      toast.error("Please select at least one book.");
+      return;
+    }
     fetch(`${API_URL}/reading-lists/${currentList.id}`, {
       method: "PUT",
       headers: {
