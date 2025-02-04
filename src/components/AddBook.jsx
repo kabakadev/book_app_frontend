@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -72,8 +72,8 @@ const AddBook = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+      <div className="flex items-center justify-center min-h-screen bg-background">
+        <div className="w-16 h-16 border-4 border-secondary border-t-primary rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -81,21 +81,9 @@ const AddBook = () => {
   if (!isAuthenticated) return null;
 
   return (
-    <div
-      style={{
-        backgroundColor: "#1a1a1a",
-        minHeight: "100vh",
-        padding: "20px",
-      }}
-    >
-      <div
-        className="max-w-4xl mx-auto p-8 shadow rounded"
-        style={{ backgroundColor: "#2c2c2c", color: "#e0e0e0" }}
-      >
-        <h1
-          className="text-2xl font-bold mb-4"
-          style={{ fontFamily: "'Playfair Display', serif" }}
-        >
+    <div className="bg-background min-h-screen p-5">
+      <div className="max-w-4xl mx-auto p-8 shadow rounded bg-card text-text-primary">
+        <h1 className="text-3xl font-bold mb-6 text-primary font-serif">
           Add a New Book
         </h1>
         <Formik
@@ -104,153 +92,34 @@ const AddBook = () => {
           onSubmit={onSubmit}
         >
           {({ isSubmitting }) => (
-            <Form className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium">Title</label>
-                <Field
-                  type="text"
-                  name="title"
-                  className="w-full p-2 border rounded"
-                  style={{
-                    backgroundColor: "#1a1a1a",
-                    borderColor: "#8f7e4f",
-                    color: "#e0e0e0",
-                  }}
-                />
-                <ErrorMessage
-                  name="title"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium">Author</label>
-                <Field
-                  type="text"
-                  name="author"
-                  className="w-full p-2 border rounded"
-                  style={{
-                    backgroundColor: "#1a1a1a",
-                    borderColor: "#8f7e4f",
-                    color: "#e0e0e0",
-                  }}
-                />
-                <ErrorMessage
-                  name="author"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium">Genre</label>
-                <Field
-                  type="text"
-                  name="genre"
-                  className="w-full p-2 border rounded"
-                  style={{
-                    backgroundColor: "#1a1a1a",
-                    borderColor: "#8f7e4f",
-                    color: "#e0e0e0",
-                  }}
-                />
-                <ErrorMessage
-                  name="genre"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium">Description</label>
-                <Field
-                  type="text"
-                  name="description"
-                  className="w-full p-2 border rounded"
-                  style={{
-                    backgroundColor: "#1a1a1a",
-                    borderColor: "#8f7e4f",
-                    color: "#e0e0e0",
-                  }}
-                />
-                <ErrorMessage
-                  name="description"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium">Page_count</label>
-                <Field
-                  type="number"
-                  name="page_count"
-                  className="w-full p-2 border rounded"
-                  style={{
-                    backgroundColor: "#1a1a1a",
-                    borderColor: "#8f7e4f",
-                    color: "#e0e0e0",
-                  }}
-                />
-                <ErrorMessage
-                  name="page_count"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium">Image Url</label>
-                <Field
-                  type="text"
-                  name="image_url"
-                  className="w-full p-2 border rounded"
-                  style={{
-                    backgroundColor: "#1a1a1a",
-                    borderColor: "#8f7e4f",
-                    color: "#e0e0e0",
-                  }}
-                />
-                <ErrorMessage
-                  name="image_url"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium">
-                  Publication_year
-                </label>
-                <Field
-                  type="number"
-                  name="publication_year"
-                  className="w-full p-2 border rounded"
-                  style={{
-                    backgroundColor: "#1a1a1a",
-                    borderColor: "#8f7e4f",
-                    color: "#e0e0e0",
-                  }}
-                />
-                <ErrorMessage
-                  name="publication_year"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
+            <Form className="space-y-6">
+              <FormField label="Title" name="title" type="text" />
+              <FormField label="Author" name="author" type="text" />
+              <FormField label="Genre" name="genre" type="text" />
+              <FormField
+                label="Description"
+                name="description"
+                type="textarea"
+              />
+              <FormField label="Page Count" name="page_count" type="number" />
+              <FormField label="Image URL" name="image_url" type="text" />
+              <FormField
+                label="Publication Year"
+                name="publication_year"
+                type="number"
+              />
 
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-500 text-white py-2 rounded hover:bg-opacity-90"
-                style={{ backgroundColor: "#8f7e4f", color: "#e0e0e0" }}
+                className="w-full bg-secondary text-background py-2 rounded hover:bg-opacity-90 transition-colors duration-200"
               >
                 {isSubmitting ? "Submitting..." : "Add Book"}
               </button>
               <button
                 type="button"
                 onClick={() => navigate("/home")}
-                className="w-full bg-gray-500 text-white py-2 rounded hover:bg-opacity-90 mt-4"
+                className="w-full bg-card text-text-primary border border-secondary py-2 rounded hover:bg-opacity-90 transition-colors duration-200 mt-4"
               >
                 Back to Home
               </button>
@@ -261,5 +130,34 @@ const AddBook = () => {
     </div>
   );
 };
+
+const FormField = ({ label, name, type }) => (
+  <div>
+    <label htmlFor={name} className="block text-sm font-medium mb-1">
+      {label}
+    </label>
+    {type === "textarea" ? (
+      <Field
+        as="textarea"
+        id={name}
+        name={name}
+        rows="4"
+        className="w-full p-2 border rounded bg-background border-secondary text-text-primary focus:ring-1 focus:ring-primary"
+      />
+    ) : (
+      <Field
+        type={type}
+        id={name}
+        name={name}
+        className="w-full p-2 border rounded bg-background border-secondary text-text-primary focus:ring-1 focus:ring-primary"
+      />
+    )}
+    <ErrorMessage
+      name={name}
+      component="div"
+      className="text-accent text-sm mt-1"
+    />
+  </div>
+);
 
 export default AddBook;
