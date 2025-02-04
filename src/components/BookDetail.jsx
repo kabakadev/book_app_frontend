@@ -5,12 +5,13 @@ import NavBar from "./NavBar";
 import BookInfo from "../BookDetailLogic/BookInfo.jsx";
 import ReviewList from "../BookDetailLogic/ReviewList.jsx";
 import AddReviewForm from "../BookDetailLogic/AddReviewForm.jsx";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const BookDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { isAuthenticated, loading } = useUser();
+  const { user, isAuthenticated, loading } = useUser();
   const [book, setBook] = useState(null);
   const [reviews, setReviews] = useState([]);
   const API_URL =
@@ -36,6 +37,13 @@ const BookDetail = () => {
   }, [id, isAuthenticated, loading, navigate]);
 
   const handleAddReview = (newReview) => {
+    const existingReview = reviews.find(
+      (review) => review.user_id === newReview.user_id
+    );
+    if (existingReview) {
+      toast.error("You have already reviewed this book.");
+      return;
+    }
     setReviews([...reviews, newReview]);
   };
 
@@ -75,7 +83,12 @@ const BookDetail = () => {
           onUpdateReview={handleUpdateReview}
           onDeleteReview={handleDeleteReview}
         />
-        <AddReviewForm bookId={id} onAddReview={handleAddReview} />
+        <AddReviewForm
+          bookId={id}
+          onAddReview={handleAddReview}
+          reviews={reviews}
+          userId={user.id}
+        />
       </div>
     </div>
   );

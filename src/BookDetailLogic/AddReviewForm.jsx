@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useUser } from "../context/UserContext.js";
 import { Star } from "lucide-react";
 import { toast } from "react-toastify";
 
-const AddReviewForm = ({ bookId, onAddReview }) => {
-  const { user } = useUser();
+const AddReviewForm = ({ bookId, onAddReview, reviews, userId }) => {
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
   const API_URL =
@@ -12,6 +10,12 @@ const AddReviewForm = ({ bookId, onAddReview }) => {
     "https://book-app-backend-mp22.onrender.com";
 
   const handleAddReview = () => {
+    const existingReview = reviews.find((review) => review.user_id === userId);
+    if (existingReview) {
+      toast.error("You have already reviewed this book.");
+      return;
+    }
+
     if (!reviewText.trim()) {
       toast.error("Review text cannot be empty.");
       return;
@@ -23,7 +27,7 @@ const AddReviewForm = ({ bookId, onAddReview }) => {
     }
 
     const payload = {
-      user_id: user.id,
+      user_id: userId,
       book_id: Number.parseInt(bookId),
       review_text: reviewText,
       rating: rating,
